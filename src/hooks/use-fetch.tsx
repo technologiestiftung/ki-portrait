@@ -16,7 +16,7 @@ export interface ImageType {
 	gesture: { face: number; gesture: string }[] | null;
 }
 
-function useFetch(offset: number) {
+function useFetch(limit: number, offset: number) {
 	const [loading, setLoading] = useState(false);
 	const [images, setImages] = useState<ImageType[]>([]);
 
@@ -26,7 +26,7 @@ function useFetch(offset: number) {
 			const response = await fetch(
 				`${
 					import.meta.env.PUBLIC_SUPABASE_URL
-				}/rest/v1/eotai_images?select=*&limit=50&offset=${offset}&order=created_at.desc`,
+				}/rest/v1/eotai_images?select=*&limit=${limit}&offset=${offset}&order=created_at.desc`,
 				{
 					headers: {
 						apikey: import.meta.env.PUBLIC_SUPABASE_ANON_KEY,

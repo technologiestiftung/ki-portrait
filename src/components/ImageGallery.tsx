@@ -3,10 +3,11 @@ import useFetch, { ImageType } from "../hooks/use-fetch";
 import useInfiniteScroll from "../hooks/use-infinite-scroll";
 import ImageModal from "./ImageModal";
 
-const imagesPerLoad = 25;
 function ImageGallery(): JSX.Element {
+	const limit = window.innerWidth <= 768 ? 10 : 50; // Check if screen width is less than or equal to 768px
+	const imagesPerLoad = limit;
 	const [offset, setOffset] = useState<number>(0);
-	const { loading, images } = useFetch(offset);
+	const { loading, images } = useFetch(limit, offset);
 	const [selectedImage, setSelectedImage] = useState<ImageType | null>(null);
 
 	const handleLoadMore = useCallback(() => {
