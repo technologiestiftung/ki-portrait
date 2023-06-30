@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/technologiestiftung/ki-portrait/compare/v1.0.0...v1.1.0) (2023-06-30)
+
+
+### Features
+
+* Load less images on mobile ([a57acc8](https://github.com/technologiestiftung/ki-portrait/commit/a57acc82966a9848309c442c6fbde68479982f2a))
+
 # 1.0.0 (2023-06-30)
 
 
