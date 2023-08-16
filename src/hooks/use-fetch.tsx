@@ -24,17 +24,12 @@ function useFetch(limit: number, offset: number) {
 		try {
 			setLoading(true);
 			const response = await fetch(
-				`${
-					import.meta.env.PUBLIC_SUPABASE_URL
-				}/rest/v1/eotai_images?select=*&limit=${limit}&offset=${offset}&order=created_at.desc`,
-				{
-					headers: {
-						apikey: import.meta.env.PUBLIC_SUPABASE_ANON_KEY,
-					},
-				},
+				`/.netlify/functions/images?&limit=${limit}&offset=${offset}`,
+				{},
 			);
 			const data = await response.json();
-			setImages((prevImages) => [...prevImages, ...data]);
+			console.log(data);
+			setImages((prevImages) => [...prevImages, ...data.images]);
 			setLoading(false);
 		} catch (err) {
 			console.error(err);
