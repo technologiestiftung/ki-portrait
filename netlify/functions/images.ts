@@ -5,8 +5,8 @@ const handler: Handler = async (
 	event: HandlerEvent,
 	context: HandlerContext,
 ) => {
-	const DEPLOY_URL = process.env.DEPLOY_URL;
-	const imageResponse = await fetch(`${DEPLOY_URL}/eotai_images.json`);
+	const URL = process.env.URL;
+	const imageResponse = await fetch(`${URL}/eotai_images.json`);
 	if (!imageResponse.ok) {
 		return {
 			statusCode: 500,
