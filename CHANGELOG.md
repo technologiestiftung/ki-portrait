@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/technologiestiftung/ki-portrait/compare/v1.1.1...v1.1.2) (2023-08-16)
+
+
+### Bug Fixes
+
+* **URL:** Test URL env var in function ([df6cd2d](https://github.com/technologiestiftung/ki-portrait/commit/df6cd2d6c5ee064db9bc8ab50b659255ac8c6547))
+
 ## [1.1.1](https://github.com/technologiestiftung/ki-portrait/compare/v1.1.0...v1.1.1) (2023-08-16)
 
 
