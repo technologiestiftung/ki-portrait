@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/technologiestiftung/ki-portrait/compare/v1.1.0...v1.1.1) (2023-08-16)
+
+
+### Bug Fixes
+
+* **images:** Move all images to s3 ([94c0c60](https://github.com/technologiestiftung/ki-portrait/commit/94c0c60fb65c744cf537c9b65b092251debb377f))
+
 # [1.1.0](https://github.com/technologiestiftung/ki-portrait/compare/v1.0.0...v1.1.0) (2023-06-30)
 
 
