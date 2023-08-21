@@ -1,3 +1,10 @@
+## [1.1.3](https://github.com/technologiestiftung/ki-portrait/compare/v1.1.2...v1.1.3) (2023-08-21)
+
+
+### Bug Fixes
+
+* **dev:** Add netlify as local dev server ([b37c5f7](https://github.com/technologiestiftung/ki-portrait/commit/b37c5f7223b9f8f9ee869c8e9fe2a487b288d094))
+
 ## [1.1.2](https://github.com/technologiestiftung/ki-portrait/compare/v1.1.1...v1.1.2) (2023-08-16)
 
 
