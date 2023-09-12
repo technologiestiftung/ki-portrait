@@ -1,36 +1,87 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import ImageGallery from "../components/ImageGallery";
+import Layout from "../layouts/Layout.astro";
 ---
 
-<Layout title="> ki.portrait">
-	<main>
-		<ImageGallery client:only />
-	</main>
-</Layout>
+<div id="threed-graph"></div>
 
 <style>
-	main {
-		margin: auto;
-		padding: 1.5rem;
-		max-width: 60ch;
-	}
-	.image-modal {
-  /* other styles... */
-  position: relative;
-}
-
-.image-modal .close-button {
-  /* other styles... */
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
-@media (max-width: 640px) {
-  .image-modal .close-button {
-    top: 10px;
-    right: 10px;
+  #threed-graph {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: -1;
   }
-}
 </style>
+
+<script>
+  import ForceGraph3D from "3d-force-graph";
+  import * as THREE from "three";
+
+  const imgs = [
+    "cat.jpg",
+    "dog.jpg",
+    "eagle.jpg",
+    "elephant.jpg",
+    "grasshopper.jpg",
+    "octopus.jpg",
+    "owl.jpg",
+    "panda.jpg",
+    "squirrel.jpg",
+    "tiger.jpg",
+    "whale.jpg",
+  ];
+
+  type NodeType = {
+    id: number;
+    img: string;
+  };
+  // Random connected graph
+  const gData = {
+    nodes: imgs.map((img, id): NodeType => ({ id, img })),
+    links: [...Array(imgs.length).keys()]
+      .filter((id) => id)
+      .map((id) => ({
+        source: id,
+        target: Math.round(Math.random() * (id - 1)),
+      })),
+  };
+
+  const canvas = document.querySelector("#threed-graph") as HTMLCanvasElement;
+
+  if (!canvas) {
+    throw new Error("Canvas not found");
+  }
+
+  const Graph = ForceGraph3D()(canvas)
+    .nodeThreeObject(({ img }: NodeType) => {
+      const imgTexture = new THREE.TextureLoader().load(`/images/${img}`);
+      imgTexture.colorSpace = THREE.SRGBColorSpace;
+      const material = new THREE.SpriteMaterial({ map: imgTexture });
+      const sprite = new THREE.Sprite(material);
+      sprite.scale.set(12, 12);
+      return sprite;
+    })
+    .onNodeClick((node: { x: number; y: number; z: number }) => {
+      // Aim at node from outside it
+      const distance = 40;
+      const distRatio = 1 + distance / Math.hypot(node.x, node.y, node.z);
+
+      const newPos =
+        node.x || node.y || node.z
+          ? {
+              x: node.x * distRatio,
+              y: node.y * distRatio,
+              z: node.z * distRatio,
+            }
+          : { x: 0, y: 0, z: distance }; // special case if node is in (0,0,0)
+
+      Graph.cameraPosition(
+        newPos, // new position
+        node, // lookAt ({ x, y, z })
+        3000 // ms transition duration
+      );
+    })
+    .graphData(gData);
+</script>
