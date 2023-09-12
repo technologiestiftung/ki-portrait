@@ -55,15 +55,18 @@ import Layout from "../layouts/Layout.astro";
   }
 
   const Graph = ForceGraph3D()(canvas)
-    .nodeThreeObject(({ img }: NodeType) => {
-      const imgTexture = new THREE.TextureLoader().load(`/images/${img}`);
+    // @ts-ignore
+    .nodeThreeObject(({ img }) => {
+      const image = img as NodeType["img"];
+      const imgTexture = new THREE.TextureLoader().load(`/images/${image}`);
       imgTexture.colorSpace = THREE.SRGBColorSpace;
       const material = new THREE.SpriteMaterial({ map: imgTexture });
       const sprite = new THREE.Sprite(material);
-      sprite.scale.set(12, 12);
+      sprite.scale.set(12, 12, 12);
       return sprite;
     })
-    .onNodeClick((node: { x: number; y: number; z: number }) => {
+    .onNodeClick((nd) => {
+      const node = nd as { x: number; y: number; z: number };
       // Aim at node from outside it
       const distance = 40;
       const distRatio = 1 + distance / Math.hypot(node.x, node.y, node.z);
@@ -80,7 +83,7 @@ import Layout from "../layouts/Layout.astro";
       Graph.cameraPosition(
         newPos, // new position
         node, // lookAt ({ x, y, z })
-        3000 // ms transition duration
+        1000 // ms transition duration
       );
     })
     .graphData(gData);
