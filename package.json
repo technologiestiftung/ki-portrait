@@ -7,7 +7,8 @@
 		"start": "astro dev",
 		"build": "astro build",
 		"preview": "astro preview",
-		"astro": "astro"
+		"astro": "astro",
+		"prepareGraphData": "npx ts-node --esm -P scripts/tsconfig.json scripts/prepareGraphData.ts"
 	},
 	"dependencies": {
 		"@astrojs/react": "2.2.1",
@@ -21,6 +22,8 @@
 	"devDependencies": {
 		"@technologiestiftung/semantic-release-config": "1.2.1",
 		"@types/three": "0.156.0",
-		"netlify-cli": "15.7.0"
+		"netlify-cli": "15.7.0",
+		"ts-node": "10.9.1",
+		"zod": "3.22.2"
 	}
 }
