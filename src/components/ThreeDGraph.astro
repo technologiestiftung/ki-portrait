@@ -15,30 +15,24 @@
 </style>
 
 <script>
-  import ForceGraph3D, { ForceGraph3DInstance } from "3d-force-graph";
-  import * as THREE from "three";
-  import type { LinkType } from "../../scripts/lib/parseFor3dGraph";
-  import { GUI } from "dat.gui";
+  import ForceGraph3D from "3d-force-graph";
+  import { initSettings, settingsMap } from "../utils/initSettings";
+  import { getGraphData } from "../utils/dataUtil";
+  import {
+    getNodeClickHandler,
+    getMaxStrength,
+    getStrengthAccessor,
+    getImageRenderer,
+  } from "../utils/graphUtil";
 
   const canvas = document.querySelector("#threed-graph") as HTMLCanvasElement;
 
-  if (!canvas) {
-    throw new Error("Canvas not found");
-  }
+  if (!canvas) throw new Error("Canvas not found");
 
   const NODE_SCALE = 12;
 
   async function main() {
     const data = await getGraphData();
-
-    const priorities = new Map([
-      ["material", 6],
-      ["colorHue", 5],
-      ["colorLightness", 4],
-      ["colorSaturation", 3],
-      ["style", 2],
-      ["gender", 1],
-    ]);
 
     const graph = ForceGraph3D()(canvas);
     graph
@@ -49,128 +43,18 @@
       .backgroundColor("#ffffff")
       .graphData(data);
 
-    const maxValue = getMaxValue(data.links, priorities);
-    console.log("maxValue", maxValue);
-    graph.d3Force("link")?.strength(getStrengthAccessor(maxValue, priorities));
+    const maxStrength = getMaxStrength(data.links, settingsMap);
+    graph
+      .d3Force("link")
+      ?.strength(getStrengthAccessor(maxStrength, settingsMap));
 
-    //Define GUI
-    class Settings {
-      materialPriority = 6;
-      colorHuePriority = 5;
-      colorLightnessPriority = 4;
-      colorSaturationPriority = 3;
-      stylePriority = 2;
-      genderPriority = 1;
-    }
-
-    const settings = new Settings();
-    const gui = new GUI();
-
-    const controllerOne = gui.add(settings, "materialPriority", 1, 10, 1);
-    const controllerTwo = gui.add(settings, "colorHuePriority", 1, 10, 1);
-    const controllerThree = gui.add(
-      settings,
-      "colorLightnessPriority",
-      1,
-      10,
-      1
-    );
-    const controllerFour = gui.add(
-      settings,
-      "colorSaturationPriority",
-      1,
-      10,
-      1
-    );
-    const controllerFive = gui.add(settings, "stylePriority", 1, 10, 1);
-    const controllerSix = gui.add(settings, "genderPriority", 1, 10, 1);
-
-    controllerOne.onChange(updatePriorities);
-    controllerTwo.onChange(updatePriorities);
-    controllerThree.onChange(updatePriorities);
-    controllerFour.onChange(updatePriorities);
-    controllerFive.onChange(updatePriorities);
-    controllerSix.onChange(updatePriorities);
-
-    function updatePriorities() {
-      priorities.set("material", settings.materialPriority);
-      priorities.set("colorHue", settings.colorHuePriority);
-      priorities.set("colorLightness", settings.colorLightnessPriority);
-      priorities.set("colorSaturation", settings.colorSaturationPriority);
-      priorities.set("style", settings.stylePriority);
-      priorities.set("gender", settings.genderPriority);
-
-      const maxValue = getMaxValue(data.links, priorities);
-      graph
-        .d3Force("link")
-        ?.strength(getStrengthAccessor(maxValue, priorities));
+    initSettings((newPriorities) => {
+      const maxStrength = getMaxStrength(data.links, newPriorities);
+      const strengthAccessor = getStrengthAccessor(maxStrength, newPriorities);
+      graph.d3Force("link")?.strength(strengthAccessor);
 
       graph.numDimensions(3);
-    }
-  }
-
-  async function getGraphData() {
-    const data = await fetch("/eotai_images_extended_for_3d_graph.json");
-    const json = await data.json();
-    return json;
-  }
-
-  function getMaxValue(
-    links: LinkType[] = [],
-    priorities: Map<string, number>
-  ) {
-    const maxValue = links.reduce((acc, link) => {
-      const linkValue = getLinkPriority(link, priorities);
-      return linkValue > acc ? linkValue : acc;
-    }, 0);
-    return maxValue;
-  }
-
-  function getLinkPriority(link: LinkType, priorities: Map<string, number>) {
-    return link.commonProperties.reduce((acc, currentPropertyName) => {
-      const priority = priorities.get(currentPropertyName) ?? 1;
-      return acc + priority;
-    }, 1);
-  }
-
-  function getStrengthAccessor(
-    maxValue: number,
-    priorities: Map<string, number>
-  ) {
-    return (link: LinkType) => {
-      const linkPrio = getLinkPriority(link, priorities);
-      return linkPrio / maxValue / 100;
-    };
-  }
-
-  function getImageRenderer(displayScale: number) {
-    return ({ id }: { id: string }) => {
-      const imgTexture = new THREE.TextureLoader().load(`/images/${id}.webp`);
-      imgTexture.colorSpace = THREE.SRGBColorSpace;
-      const material = new THREE.SpriteMaterial({ map: imgTexture });
-      const sprite = new THREE.Sprite(material);
-      sprite.scale.set(displayScale, displayScale, displayScale);
-      return sprite;
-    };
-  }
-
-  function getNodeClickHandler(graph: ForceGraph3DInstance) {
-    return function onNodeClick(nd: object) {
-      const node = nd as { x: number; y: number; z: number };
-      const distance = 40;
-      const distRatio = 1 + distance / Math.hypot(node.x, node.y, node.z);
-
-      const newPos =
-        node.x || node.y || node.z
-          ? {
-              x: node.x * distRatio,
-              y: node.y * distRatio,
-              z: node.z * distRatio,
-            }
-          : { x: 0, y: 0, z: distance };
-
-      graph.cameraPosition(newPos, node, 1000);
-    };
+    });
   }
 
   main();

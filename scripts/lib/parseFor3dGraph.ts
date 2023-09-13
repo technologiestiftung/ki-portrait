@@ -1,9 +1,9 @@
+import { settingsMap } from "./../../src/utils/initSettings.ts";
 import type { ParsedPortraitType } from "./parsePortraitData.ts";
 
 export type LinkType = {
   source: string;
   target: string;
-  value: number;
   commonProperties: string[];
 };
 
@@ -12,36 +12,18 @@ type PortraitGroupType = {
   portraits: ParsedPortraitType[];
 };
 
-export const propertiesInOrderOfImportance = new Map([
-  ["material", 6],
-  ["colorHue", 5],
-  ["colorLightness", 4],
-  ["colorSaturation", 3],
-  ["style", 2],
-  ["gender", 1],
-]);
-
 export function parseFor3dGraph(parsedPortraitData: ParsedPortraitType[]) {
-  const portraitsByProperties = getPortraitsByProperties(
-    propertiesInOrderOfImportance,
-    parsedPortraitData
-  );
+  const portraitsByProperties = getPortraitsByProperties(parsedPortraitData);
   const formattedFor3dGraph = {
     nodes: parsedPortraitData,
-    links: connectPortraitsByCommonProperties(
-      portraitsByProperties,
-      propertiesInOrderOfImportance
-    ),
+    links: connectPortraitsByCommonProperties(portraitsByProperties),
   };
   return formattedFor3dGraph;
 }
 
-function getPortraitsByProperties(
-  propertiesInOrderOfImportance: Map<string, number>,
-  parsedPortraitData: ParsedPortraitType[]
-) {
+function getPortraitsByProperties(parsedPortraitData: ParsedPortraitType[]) {
   const portraitsByProperties = new Set<PortraitGroupType>();
-  for (const [property] of propertiesInOrderOfImportance) {
+  for (const [property] of settingsMap) {
     const portraitsWithSameProperty = getPortraitsByProperty(
       parsedPortraitData,
       property
@@ -55,8 +37,7 @@ function getPortraitsByProperties(
 }
 
 function connectPortraitsByCommonProperties(
-  portraitPropertyGroups: Set<PortraitGroupType>,
-  propertiesInOrderOfImportance: Map<string, number>
+  portraitPropertyGroups: Set<PortraitGroupType>
 ) {
   let links = new Map<string, LinkType>();
   const loopThroughPortraitGroups = getPortraitGroupLooper(
@@ -64,7 +45,6 @@ function connectPortraitsByCommonProperties(
   );
   loopThroughPortraitGroups(
     ({ propertyName, portrait, nextPortrait, currentId }) => {
-      const importance = propertiesInOrderOfImportance.get(propertyName) ?? 0;
       const exitsingLink = links.get(currentId);
       if (
         !nextPortrait ||
@@ -77,7 +57,6 @@ function connectPortraitsByCommonProperties(
       links.set(currentId, {
         source: exitsingLink ? exitsingLink.source : portrait.id,
         target: exitsingLink ? exitsingLink.target : nextPortrait.id,
-        value: exitsingLink ? exitsingLink.value + importance : importance,
         commonProperties,
       });
     }
