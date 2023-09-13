@@ -12,15 +12,16 @@ type PortraitGroupType = {
   portraits: ParsedPortraitType[];
 };
 
+export const propertiesInOrderOfImportance = new Map([
+  ["material", 15],
+  ["colorHue", 10],
+  ["colorLightness", 7],
+  ["colorSaturation", 5],
+  ["style", 3],
+  ["gender", 2],
+]);
+
 export function parseFor3dGraph(parsedPortraitData: ParsedPortraitType[]) {
-  const propertiesInOrderOfImportance = new Map([
-    ["material", 4],
-    ["colorHue", 3],
-    ["colorLightness", 3],
-    ["colorSaturation", 2],
-    ["style", 2],
-    ["gender", 1],
-  ]);
   const portraitsByProperties = getPortraitsByProperties(
     propertiesInOrderOfImportance,
     parsedPortraitData
@@ -65,6 +66,11 @@ function connectPortraitsByCommonProperties(
     ({ propertyName, portrait, nextPortrait, currentId }) => {
       const importance = propertiesInOrderOfImportance.get(propertyName) ?? 0;
       const exitsingLink = links.get(currentId);
+      if (
+        !nextPortrait ||
+        portrait[propertyName] !== nextPortrait[propertyName]
+      )
+        return;
       const commonProperties = exitsingLink
         ? [...new Set([...exitsingLink.commonProperties, propertyName])]
         : [propertyName];
@@ -96,14 +102,15 @@ function getPortraitGroupLooper(
       for (const portraitIdxString in portraits) {
         const portraitIdx = Number(portraitIdxString);
         const portrait = portraits[portraitIdx];
-        const nextPortraitInGroup = portraits[portraitIdx + 1];
-        if (!nextPortraitInGroup) break;
-        const currentId = [portrait.id, nextPortraitInGroup.id].sort().join();
-        loopFn({
-          propertyName: property,
-          portrait,
-          nextPortrait: nextPortraitInGroup,
-          currentId,
+        portraits.forEach((p) => {
+          if (p.id === portrait.id) return;
+          const currentId = [portrait.id, p.id].sort().join();
+          loopFn({
+            propertyName: property,
+            portrait,
+            nextPortrait: p,
+            currentId,
+          });
         });
       }
     }

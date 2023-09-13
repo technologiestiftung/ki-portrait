@@ -1,5 +1,4 @@
 ---
-
 ---
 
 <div id="threed-graph"></div>
@@ -18,6 +17,8 @@
 <script>
   import ForceGraph3D from "3d-force-graph";
   import * as THREE from "three";
+  import { propertiesInOrderOfImportance } from "../../scripts/lib/parseFor3dGraph";
+  import { scaleLinear } from "d3-scale";
 
   const canvas = document.querySelector("#threed-graph") as HTMLCanvasElement;
 
@@ -25,24 +26,46 @@
     throw new Error("Canvas not found");
   }
 
-  const NODE_SCALE = 32;
+  const NODE_SCALE = 12;
 
-  const Graph = ForceGraph3D()(canvas)
-    // @ts-ignore
-    .nodeThreeObject(({ id }) => {
-      const imgTexture = new THREE.TextureLoader().load(`/images/${id}.webp`);
-      imgTexture.colorSpace = THREE.SRGBColorSpace;
-      const material = new THREE.SpriteMaterial({ map: imgTexture });
-      const sprite = new THREE.Sprite(material);
-      sprite.scale.set(NODE_SCALE, NODE_SCALE, NODE_SCALE);
-      return sprite;
-    })
-    .onNodeClick(onNodeClick)
-    .linkVisibility(false)
-    .backgroundColor("#ffffff")
-    .jsonUrl("/eotai_images_extended_for_3d_graph.json");
+  async function main() {
+    const data = await fetch("/eotai_images_extended_for_3d_graph.json").then(
+      (res) => res.json()
+    );
 
-    function onNodeClick(node) {
+    const maxLinkValue =
+      Array.from(propertiesInOrderOfImportance.values()).reduce(
+        (acc, curr) => acc + curr,
+        0
+      ) * 2;
+
+    const graph = ForceGraph3D()(canvas)
+      // @ts-ignore
+      .nodeThreeObject(({ id }) => {
+        const imgTexture = new THREE.TextureLoader().load(`/images/${id}.webp`);
+        imgTexture.colorSpace = THREE.SRGBColorSpace;
+        const material = new THREE.SpriteMaterial({ map: imgTexture });
+        const sprite = new THREE.Sprite(material);
+        sprite.scale.set(NODE_SCALE, NODE_SCALE, NODE_SCALE);
+        return sprite;
+      })
+      .onNodeClick(onNodeClick)
+      .linkVisibility(false)
+      .backgroundColor("#ffffff")
+      .graphData(data);
+
+    let originalStrengthAccessor = graph.d3Force("link")?.strength();
+    originalStrengthAccessor =
+      typeof originalStrengthAccessor === "function"
+        ? originalStrengthAccessor
+        : () => 1;
+
+    graph.d3Force("link")?.strength((link: { value: number }) => {
+      return 1 / link.value / maxLinkValue;
+    });
+
+    function onNodeClick(nd: object) {
+      const node = nd as { x: number; y: number; z: number };
       const distance = 40;
       const distRatio = 1 + distance / Math.hypot(node.x, node.y, node.z);
 
@@ -55,6 +78,9 @@
             }
           : { x: 0, y: 0, z: distance };
 
-      Graph.cameraPosition(newPos, node, 1000);
+      graph.cameraPosition(newPos, node, 1000);
     }
+  }
+
+  main();
 </script>
