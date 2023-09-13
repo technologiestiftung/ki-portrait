@@ -1,6 +1,6 @@
 import type { ParsedPortraitType } from "./parsePortraitData.ts";
 
-type LinkType = {
+export type LinkType = {
   source: string;
   target: string;
   value: number;
@@ -13,12 +13,12 @@ type PortraitGroupType = {
 };
 
 export const propertiesInOrderOfImportance = new Map([
-  ["material", 15],
-  ["colorHue", 10],
-  ["colorLightness", 7],
-  ["colorSaturation", 5],
-  ["style", 3],
-  ["gender", 2],
+  ["material", 6],
+  ["colorHue", 5],
+  ["colorLightness", 4],
+  ["colorSaturation", 3],
+  ["style", 2],
+  ["gender", 1],
 ]);
 
 export function parseFor3dGraph(parsedPortraitData: ParsedPortraitType[]) {
