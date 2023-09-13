@@ -28,15 +28,16 @@ import Layout from "../layouts/Layout.astro";
     throw new Error("Canvas not found");
   }
 
+  const NODE_SCALE = 44;
+
   const Graph = ForceGraph3D()(canvas)
     // @ts-ignore
-    .nodeThreeObject(({ url }) => {
-      const image = url as ParsedPortraitType["url"];
-      const imgTexture = new THREE.TextureLoader().load(image);
+    .nodeThreeObject(({ id }) => {
+      const imgTexture = new THREE.TextureLoader().load(`/images/${id}.webp`);
       imgTexture.colorSpace = THREE.SRGBColorSpace;
       const material = new THREE.SpriteMaterial({ map: imgTexture });
       const sprite = new THREE.Sprite(material);
-      sprite.scale.set(12, 12, 12);
+      sprite.scale.set(NODE_SCALE, NODE_SCALE, NODE_SCALE);
       return sprite;
     })
     .onNodeClick((nd) => {
@@ -55,6 +56,8 @@ import Layout from "../layouts/Layout.astro";
 
       Graph.cameraPosition(newPos, node, 1000);
     })
+    .linkVisibility(false)
     .backgroundColor("#ffffff")
+    .forceEngine("ngraph")
     .jsonUrl("/eotai_images_extended_for_3d_graph.json");
 </script>
