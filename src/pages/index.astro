@@ -1,63 +1,8 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import ThreeDGraph from "../components/ThreeDGraph.astro";
 ---
 
 <Layout title="KI Portraits">
-  <div id="threed-graph"></div>
+  <ThreeDGraph />
 </Layout>
-
-<style>
-  #threed-graph {
-    position: fixed;
-    width: 100vw;
-    height: 100vh;
-    top: 0;
-    left: 0;
-    z-index: -1;
-  }
-</style>
-
-<script>
-  import ForceGraph3D from "3d-force-graph";
-  import * as THREE from "three";
-  import type { ParsedPortraitType } from "../../scripts/lib/parsePortraitData";
-
-  const canvas = document.querySelector("#threed-graph") as HTMLCanvasElement;
-
-  if (!canvas) {
-    throw new Error("Canvas not found");
-  }
-
-  const NODE_SCALE = 44;
-
-  const Graph = ForceGraph3D()(canvas)
-    // @ts-ignore
-    .nodeThreeObject(({ id }) => {
-      const imgTexture = new THREE.TextureLoader().load(`/images/${id}.webp`);
-      imgTexture.colorSpace = THREE.SRGBColorSpace;
-      const material = new THREE.SpriteMaterial({ map: imgTexture });
-      const sprite = new THREE.Sprite(material);
-      sprite.scale.set(NODE_SCALE, NODE_SCALE, NODE_SCALE);
-      return sprite;
-    })
-    .onNodeClick((nd) => {
-      const node = nd as { x: number; y: number; z: number };
-      const distance = 40;
-      const distRatio = 1 + distance / Math.hypot(node.x, node.y, node.z);
-
-      const newPos =
-        node.x || node.y || node.z
-          ? {
-              x: node.x * distRatio,
-              y: node.y * distRatio,
-              z: node.z * distRatio,
-            }
-          : { x: 0, y: 0, z: distance };
-
-      Graph.cameraPosition(newPos, node, 1000);
-    })
-    .linkVisibility(false)
-    .backgroundColor("#ffffff")
-    .forceEngine("ngraph")
-    .jsonUrl("/eotai_images_extended_for_3d_graph.json");
-</script>
