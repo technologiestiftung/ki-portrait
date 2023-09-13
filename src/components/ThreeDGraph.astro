@@ -15,10 +15,9 @@
 </style>
 
 <script>
-  import ForceGraph3D from "3d-force-graph";
+  import ForceGraph3D, { ForceGraph3DInstance } from "3d-force-graph";
   import * as THREE from "three";
   import { propertiesInOrderOfImportance } from "../../scripts/lib/parseFor3dGraph";
-  import { scaleLinear } from "d3-scale";
 
   const canvas = document.querySelector("#threed-graph") as HTMLCanvasElement;
 
@@ -29,42 +28,50 @@
   const NODE_SCALE = 12;
 
   async function main() {
-    const data = await fetch("/eotai_images_extended_for_3d_graph.json").then(
-      (res) => res.json()
-    );
+    const data = await getGraphData();
 
-    const maxLinkValue =
-      Array.from(propertiesInOrderOfImportance.values()).reduce(
-        (acc, curr) => acc + curr,
-        0
-      ) * 2;
+    const graph = ForceGraph3D()(canvas);
 
-    const graph = ForceGraph3D()(canvas)
+    graph
       // @ts-ignore
-      .nodeThreeObject(({ id }) => {
-        const imgTexture = new THREE.TextureLoader().load(`/images/${id}.webp`);
-        imgTexture.colorSpace = THREE.SRGBColorSpace;
-        const material = new THREE.SpriteMaterial({ map: imgTexture });
-        const sprite = new THREE.Sprite(material);
-        sprite.scale.set(NODE_SCALE, NODE_SCALE, NODE_SCALE);
-        return sprite;
-      })
-      .onNodeClick(onNodeClick)
+      .nodeThreeObject(getImageRenderer(NODE_SCALE))
+      .onNodeClick(getNodeClickHandler(graph))
       .linkVisibility(false)
       .backgroundColor("#ffffff")
       .graphData(data);
 
-    let originalStrengthAccessor = graph.d3Force("link")?.strength();
-    originalStrengthAccessor =
-      typeof originalStrengthAccessor === "function"
-        ? originalStrengthAccessor
-        : () => 1;
+    graph.d3Force("link")?.strength(getStrengthAccessor(getMaxValue()));
+  }
 
-    graph.d3Force("link")?.strength((link: { value: number }) => {
-      return 1 / link.value / maxLinkValue;
-    });
+  async function getGraphData() {
+    const data = await fetch("/eotai_images_extended_for_3d_graph.json");
+    const json = await data.json();
+    return json;
+  }
 
-    function onNodeClick(nd: object) {
+  function getMaxValue() {
+    const arr = Array.from(propertiesInOrderOfImportance.values());
+    const totalReducer = (acc: number, curr: number) => acc + curr;
+    return arr.reduce(totalReducer, 0) * 2;
+  }
+
+  function getStrengthAccessor(maxValue: number) {
+    return (link: { value: number }) => 1 / link.value / maxValue;
+  }
+
+  function getImageRenderer(displayScale: number) {
+    return ({ id }: { id: string }) => {
+      const imgTexture = new THREE.TextureLoader().load(`/images/${id}.webp`);
+      imgTexture.colorSpace = THREE.SRGBColorSpace;
+      const material = new THREE.SpriteMaterial({ map: imgTexture });
+      const sprite = new THREE.Sprite(material);
+      sprite.scale.set(displayScale, displayScale, displayScale);
+      return sprite;
+    };
+  }
+
+  function getNodeClickHandler(graph: ForceGraph3DInstance) {
+    return function onNodeClick(nd: object) {
       const node = nd as { x: number; y: number; z: number };
       const distance = 40;
       const distRatio = 1 + distance / Math.hypot(node.x, node.y, node.z);
@@ -79,7 +86,7 @@
           : { x: 0, y: 0, z: distance };
 
       graph.cameraPosition(newPos, node, 1000);
-    }
+    };
   }
 
   main();
