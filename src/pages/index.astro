@@ -2,7 +2,9 @@
 import Layout from "../layouts/Layout.astro";
 ---
 
-<div id="threed-graph"></div>
+<Layout title="KI Portraits">
+  <div id="threed-graph"></div>
+</Layout>
 
 <style>
   #threed-graph {
@@ -18,35 +20,7 @@ import Layout from "../layouts/Layout.astro";
 <script>
   import ForceGraph3D from "3d-force-graph";
   import * as THREE from "three";
-
-  const imgs = [
-    "cat.jpg",
-    "dog.jpg",
-    "eagle.jpg",
-    "elephant.jpg",
-    "grasshopper.jpg",
-    "octopus.jpg",
-    "owl.jpg",
-    "panda.jpg",
-    "squirrel.jpg",
-    "tiger.jpg",
-    "whale.jpg",
-  ];
-
-  type NodeType = {
-    id: number;
-    img: string;
-  };
-  // Random connected graph
-  const gData = {
-    nodes: imgs.map((img, id): NodeType => ({ id, img })),
-    links: [...Array(imgs.length).keys()]
-      .filter((id) => id)
-      .map((id) => ({
-        source: id,
-        target: Math.round(Math.random() * (id - 1)),
-      })),
-  };
+  import type { ParsedPortraitType } from "../../scripts/lib/parsePortraitData";
 
   const canvas = document.querySelector("#threed-graph") as HTMLCanvasElement;
 
@@ -56,9 +30,9 @@ import Layout from "../layouts/Layout.astro";
 
   const Graph = ForceGraph3D()(canvas)
     // @ts-ignore
-    .nodeThreeObject(({ img }) => {
-      const image = img as NodeType["img"];
-      const imgTexture = new THREE.TextureLoader().load(`/images/${image}`);
+    .nodeThreeObject(({ url }) => {
+      const image = url as ParsedPortraitType["url"];
+      const imgTexture = new THREE.TextureLoader().load(image);
       imgTexture.colorSpace = THREE.SRGBColorSpace;
       const material = new THREE.SpriteMaterial({ map: imgTexture });
       const sprite = new THREE.Sprite(material);
@@ -67,7 +41,6 @@ import Layout from "../layouts/Layout.astro";
     })
     .onNodeClick((nd) => {
       const node = nd as { x: number; y: number; z: number };
-      // Aim at node from outside it
       const distance = 40;
       const distRatio = 1 + distance / Math.hypot(node.x, node.y, node.z);
 
@@ -78,13 +51,10 @@ import Layout from "../layouts/Layout.astro";
               y: node.y * distRatio,
               z: node.z * distRatio,
             }
-          : { x: 0, y: 0, z: distance }; // special case if node is in (0,0,0)
+          : { x: 0, y: 0, z: distance };
 
-      Graph.cameraPosition(
-        newPos, // new position
-        node, // lookAt ({ x, y, z })
-        1000 // ms transition duration
-      );
+      Graph.cameraPosition(newPos, node, 1000);
     })
-    .graphData(gData);
+    .backgroundColor("#ffffff")
+    .jsonUrl("/eotai_images_extended_for_3d_graph.json");
 </script>

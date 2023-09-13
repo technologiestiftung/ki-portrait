@@ -1,7 +1,8 @@
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
-import { writeJsonFile } from "./lib/writeJsonFile";
-import { ParsedPortraitType, parsePortraitData } from "./lib/parsePortraitData";
+import { writeJsonFile } from "./lib/writeJsonFile.ts";
+import { parsePortraitData } from "./lib/parsePortraitData.ts";
+import { parseFor3dGraph } from "./lib/parseFor3dGraph.ts";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const jsonPath = join(__dirname, "../public/eotai_images_extended.json");
@@ -12,7 +13,8 @@ const destPath = join(
 
 async function main() {
   const parsedPortraitData = await parsePortraitData(jsonPath);
-  await writeJsonFile<ParsedPortraitType[]>(destPath, parsedPortraitData);
+  const parsedFor3dGraph = parseFor3dGraph(parsedPortraitData);
+  await writeJsonFile(destPath, parsedFor3dGraph);
   console.log(`Wrote ${parsedPortraitData.length} portraits to ${destPath}`);
 }
 

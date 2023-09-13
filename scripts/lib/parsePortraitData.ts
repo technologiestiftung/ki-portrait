@@ -1,6 +1,6 @@
 import z from "zod";
-import { loadJson } from "./loadJSON";
-import { rgbToHsl } from "./rgbToHsl";
+import { loadJson } from "./loadJSON.ts";
+import { rgbToHsl } from "./rgbToHsl.ts";
 
 const ColourSchema = z.tuple([z.number(), z.number(), z.number()]);
 type ColourType = z.infer<typeof ColourSchema>;
@@ -111,7 +111,11 @@ export async function parsePortraitData(
       .array(ParsedPortraitDataSchema)
       .parse(
         filteredPortraitData.map((rawPortrait) => {
-          const hslColor = rgbToHsl(rawPortrait.color_dominant);
+          const hslColor = rgbToHsl([
+            rawPortrait.color_dominant[0],
+            rawPortrait.color_dominant[1],
+            rawPortrait.color_dominant[2],
+          ]);
           return {
             id: rawPortrait.id,
             createdAt: rawPortrait.created_at,
@@ -121,6 +125,8 @@ export async function parsePortraitData(
             colorHue: hslColor && hslColor[0],
             colorSaturation: hslColor && hslColor[1],
             colorLightness: hslColor && hslColor[2],
+            material: rawPortrait.material ?? null,
+            style: rawPortrait.style ?? null,
             colorPalette: rawPortrait.color_palette ?? null,
             gender:
               rawPortrait.gender === "unknown"
