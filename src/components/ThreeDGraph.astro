@@ -34,42 +34,15 @@
 
   const NODE_SCALE = 12;
 
-  type ListenerType = (portrait: ParsedPortraitType | null) => void;
-  type EventType = "onSelect";
-  type ListenersType = Map<EventType, ListenerType[]>;
-  class State {
-    private selectedPortrait: ParsedPortraitType | null = null;
-    private listeners: ListenersType = new Map();
-
-    selectPortrait(portrait: ParsedPortraitType | null) {
-      this.selectedPortrait = portrait;
-      Object.entries(this.listeners)
-        .filter(([key]) => key === "onSelect")
-        .forEach(([_, listener]) => listener(portrait));
-    }
-
-    on(event: EventType, listener: ListenerType) {
-      this.listeners.set(event, [
-        ...(this.listeners.get(event) || []),
-        listener,
-      ]);
-    }
-
-    off(event: EventType, listener: ListenerType) {
-      this.listeners.set(
-        event,
-        (this.listeners.get(event) || []).filter((l) => l !== listener)
-      );
-    }
-  }
-
   async function main() {
     const data = await getGraphData();
 
-    portraitState.onSelect((p) => console.log("select", p));
-    portraitState.onDeselect(() => console.log("deselect"));
-
     const graph = ForceGraph3D()(canvas);
+
+    portraitState.onSelect((p) => console.log("select", p));
+    portraitState.onDeselect(() => {
+      graph.zoomToFit(1000);
+    });
     const zoomClickHandler = getNodeClickHandler(graph);
     graph
       // @ts-ignore
@@ -82,6 +55,7 @@
       .onBackgroundClick(() => {
         portraitState.deselect();
       })
+      .enableNodeDrag(false)
       .linkVisibility(false)
       .backgroundColor("#ffffff")
       .showNavInfo(false)
