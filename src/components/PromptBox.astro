@@ -1,0 +1,59 @@
+---
+import classes from "../utils/classes";
+---
+
+<div
+  id="prompt-box"
+  class={classes(
+    "fixed inset-y-0 right-0 p-6 sm:p-14",
+    "max-w-lg transition duration-1000 ease-out-extreme opacity-0",
+    "flex items-center translate-y-10"
+  )}
+>
+  <div
+    class={classes(
+      "bg-background rounded-lg border border-border",
+      "p-8 sm:p-[min(32px,5max)] shadow-lg"
+    )}
+  >
+    <small class="uppercase text-discrete text-base">Prompt</small>
+    <h2 id="promt" class="text-3xl italic">No prompt</h2>
+    <div id="color-palette"></div>
+  </div>
+</div>
+
+<script>
+  import portraitState from "../utils/State";
+
+  portraitState.onSelect((portrait) => {
+    const prompt = document.getElementById("promt");
+    const promptBox = document.getElementById("prompt-box");
+    if (!prompt || !promptBox) return;
+    prompt.innerHTML = portrait.prompt || "";
+    promptBox.classList.add("opacity-100");
+    promptBox.classList.remove("pointer-events-none", "translate-y-10");
+
+    const palette = document.getElementById("color-palette");
+    if (!palette) return;
+    palette.innerHTML = "";
+
+    const pills = portrait.colorPalette?.map((color) => {
+      const li = document.createElement("li");
+      li.classList.add("w-4", "h-4", "rounded-full");
+      li.style.backgroundColor = `rgb(${color[0]},${color[1]},${color[2]})`;
+      return li;
+    });
+    if (!pills || pills.length === 0) return;
+    const ul = document.createElement("ul");
+    ul.classList.add("flex", "gap-2", "mt-6");
+    pills.forEach((pill) => ul.appendChild(pill));
+    palette.appendChild(ul);
+  });
+
+  portraitState.onDeselect(() => {
+    const promptBox = document.getElementById("prompt-box");
+    if (!promptBox) return;
+    promptBox.classList.remove("opacity-100");
+    promptBox.classList.add("pointer-events-none", "translate-y-10");
+  });
+</script>

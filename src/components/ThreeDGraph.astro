@@ -24,6 +24,9 @@
     getStrengthAccessor,
     getImageRenderer,
   } from "../utils/graphUtil";
+  import type { PortraitWithCoordinates } from "../utils/graphUtil";
+  import type { ParsedPortraitType } from "../../scripts/lib/parsePortraitData";
+  import portraitState from "../utils/State";
 
   const canvas = document.querySelector("#threed-graph") as HTMLCanvasElement;
 
@@ -31,16 +34,57 @@
 
   const NODE_SCALE = 12;
 
+  type ListenerType = (portrait: ParsedPortraitType | null) => void;
+  type EventType = "onSelect";
+  type ListenersType = Map<EventType, ListenerType[]>;
+  class State {
+    private selectedPortrait: ParsedPortraitType | null = null;
+    private listeners: ListenersType = new Map();
+
+    selectPortrait(portrait: ParsedPortraitType | null) {
+      this.selectedPortrait = portrait;
+      Object.entries(this.listeners)
+        .filter(([key]) => key === "onSelect")
+        .forEach(([_, listener]) => listener(portrait));
+    }
+
+    on(event: EventType, listener: ListenerType) {
+      this.listeners.set(event, [
+        ...(this.listeners.get(event) || []),
+        listener,
+      ]);
+    }
+
+    off(event: EventType, listener: ListenerType) {
+      this.listeners.set(
+        event,
+        (this.listeners.get(event) || []).filter((l) => l !== listener)
+      );
+    }
+  }
+
   async function main() {
     const data = await getGraphData();
 
+    portraitState.onSelect((p) => console.log("select", p));
+    portraitState.onDeselect(() => console.log("deselect"));
+
     const graph = ForceGraph3D()(canvas);
+    const zoomClickHandler = getNodeClickHandler(graph);
     graph
       // @ts-ignore
       .nodeThreeObject(getImageRenderer(NODE_SCALE))
-      .onNodeClick(getNodeClickHandler(graph))
+      .onNodeClick((nd) => {
+        const node = nd as PortraitWithCoordinates;
+        zoomClickHandler(node);
+        portraitState.select(node);
+      })
+      .onBackgroundClick(() => {
+        portraitState.deselect();
+      })
       .linkVisibility(false)
       .backgroundColor("#ffffff")
+      .showNavInfo(false)
       .graphData(data);
 
     const maxStrength = getMaxStrength(data.links, settingsMap);

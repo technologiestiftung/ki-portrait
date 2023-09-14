@@ -7,24 +7,33 @@ import ClickIcon from "./icons/ClickIcon.astro";
 import CityLABLogo from "./CityLABLogo.astro";
 import TSBLogo from "./TSBLogo.astro";
 import BuergermeisterLogo from "./BuergermeisterLogo.astro";
+import Kiportraitgt from "./icons/Kiportraitgt.astro";
 ---
 
 <div
   id="about-modal"
   class={classes(
     "fixed inset-0 z-10 flex items-center justify-center w-full h-full",
-    "text-text transition ease-out-extreme duration-1000"
+    "text-text transition ease-out-extreme duration-1000 p-2 sm:p-[5vmax]"
   )}
 >
   <section
     class={classes(
       "bg-background rounded-lg border border-border",
-      "shadow-lg p-14 max-w-4xl flex flex-col gap-10"
+      "shadow-lg p-6 sm:p-[min(5vmax,56px)] max-w-4xl flex flex-col gap-6 sm:gap-10",
+      "md:bg-[url('/modal-bg.webp')] bg-[length:35%_auto] bg-right-top",
+      "bg-no-repeat max-h-full overflow-y-auto"
     )}
   >
-    <div class="flex gap-16 items-end">
-      <div class="text-lg flex flex-col gap-6 items-start">
-        <h1 class="font-extrabold text-2xl">&gt;ki.portrait Galerie</h1>
+    <div class="flex flex-col md:flex-row gap-8 sm:gap-16 items-end">
+      <div class="text-lg flex flex-col gap-3 sm:gap-6 items-start">
+        <h1 class="text-xl flex gap-2 sm:gap-4">
+          <span class="flex gap-1 sm:gap-2 text-brandBlue items-center">
+            <Kiportraitgt class="scale-125" />
+            <span class="font-extrabold">ki.portrait</span>
+          </span>
+          <span>Galerie</span>
+        </h1>
         <p>
           Diese Galerie ist eine Sammlung aller <strong class="font-extrabold"
             >&gt;ki.portrait</strong
@@ -54,7 +63,7 @@ import BuergermeisterLogo from "./BuergermeisterLogo.astro";
         >
       </div>
 
-      <ul class={classes("flex flex-col gap-3")}>
+      <ul class={classes("flex flex-wrap md:flex-col gap-2 sm:gap-3")}>
         <li
           class={classes(
             "text-discrete flex gap-3 flex-nowrap whitespace-nowrap"
@@ -149,6 +158,8 @@ import BuergermeisterLogo from "./BuergermeisterLogo.astro";
 </div>
 
 <script>
+  import portraitState from "../utils/State";
+
   const openButton = document.getElementById("about-modal-open");
   const closeButton = document.getElementById("about-modal-close");
 
@@ -167,6 +178,8 @@ import BuergermeisterLogo from "./BuergermeisterLogo.astro";
     );
     openButton?.classList.add("max-w-[0px]", "px-0", "border-transparent");
     openButton?.classList.remove("max-w-[300px]", "px-5", "border-border");
+
+    portraitState.deselect();
   }
 
   function onClose(evt: Event) {
@@ -177,5 +190,7 @@ import BuergermeisterLogo from "./BuergermeisterLogo.astro";
     dialog.classList.add("opacity-0", "pointer-events-none", "translate-y-10");
     openButton?.classList.remove("max-w-[0px]", "px-0", "border-transparent");
     openButton?.classList.add("max-w-[300px]", "px-5", "border-border");
+
+    portraitState.deselect();
   }
 </script>
