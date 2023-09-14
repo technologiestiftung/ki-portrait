@@ -1,0 +1,170 @@
+---
+import classes from "../utils/classes";
+import Rotate3dIcon from "./icons/Rotate3dIcon.astro";
+import PanIcon from "./icons/PanIcon.astro";
+import ZoomIcon from "./icons/ZoomIcon.astro";
+import ClickIcon from "./icons/ClickIcon.astro";
+import CityLABLogo from "./CityLABLogo.astro";
+import TSBLogo from "./TSBLogo.astro";
+import BuergermeisterLogo from "./BuergermeisterLogo.astro";
+---
+
+<div
+  id="about-modal"
+  class={classes(
+    "fixed inset-0 z-10 flex items-center justify-center w-full h-full",
+    "text-text"
+  )}
+>
+  <section
+    class={classes(
+      "bg-background rounded-lg border border-border",
+      "shadow-lg p-14 max-w-4xl flex flex-col gap-10"
+    )}
+  >
+    <div class="flex gap-16 items-end">
+      <div class="text-lg flex flex-col gap-6 items-start">
+        <h1 class="font-extrabold text-2xl">&gt;ki.portrait Galerie</h1>
+        <p>
+          Diese Galerie ist eine Sammlung aller <strong class="font-extrabold"
+            >&gt;ki.portrait</strong
+          >, die wir zum CityLAB Sommerfest geschossen haben. Das Künstler:in
+          'Dall-E' hat dank einer Gesichtserkennungssoftware unzählige
+          Kunstwerke geschaffen und wir stellen Sie hier im KI-Kunst Wolke aus.
+        </p>
+        <p
+          class={classes(
+            "px-4 pb-4 pt-3 border border-brandPink rounded",
+            "text-base leading-tight"
+          )}
+        >
+          <strong class="font-extrabold">Achtung!</strong> Dieses Experiment ist
+          nicht für Mobiltelefone und Geräte mit niedriger Grafikleistung optimiert.
+        </p>
+        <button
+          id="about-modal-close"
+          class={classes(
+            "bg-brandPink text-white font-extrabold pt-1 pb-2 px-4 rounded-full",
+            "text-xl",
+            "focus-visible:outline-none",
+            "focus-visible:ring-2 focus-visible:ring-brandPink",
+            "focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          )}>Explorieren</button
+        >
+      </div>
+
+      <ul class={classes("flex flex-col gap-3")}>
+        <li
+          class={classes(
+            "text-discrete flex gap-3 flex-nowrap whitespace-nowrap"
+          )}
+        >
+          <Rotate3dIcon class="opacity-80" />
+          <span>3D Rotation: Linksklick & drag</span>
+        </li>
+        <li
+          class={classes(
+            "text-discrete flex gap-3 flex-nowrap whitespace-nowrap"
+          )}
+        >
+          <PanIcon class="opacity-80" />
+          <span>Pan: Rechtsklick & drag</span>
+        </li>
+        <li
+          class={classes(
+            "text-discrete flex gap-3 flex-nowrap whitespace-nowrap"
+          )}
+        >
+          <ZoomIcon class="opacity-80" />
+          <span>Zoom: Mousewheel</span>
+        </li>
+        <li
+          class={classes(
+            "text-discrete flex gap-3 flex-nowrap whitespace-nowrap"
+          )}
+        >
+          <ClickIcon class="opacity-80" />
+          <span>Portrait Info: Linksklick</span>
+        </li>
+      </ul>
+    </div>
+    <footer class={classes("border-t border-border pt-10")}>
+      <ul class="flex gap-8 flex-wrap">
+        <li>
+          <a
+            href="https://citylab-berlin.org/de/start/"
+            target="_blank"
+            rel="noreferrer nofollow"
+            class={classes(
+              "flex flex-col gap-4",
+              "transition-opacity hover-hover:hover:opacity-80",
+              "focus-visible:outline-none",
+              "focus-visible:ring-2 focus-visible:ring-brandPink focus-visible:rounded-lg",
+              "focus-visible:ring-offset-8 focus-visible:ring-offset-background",
+              "focus-visible:bg-background"
+            )}
+          >
+            <p>Ausgeführt von</p>
+            <CityLABLogo />
+          </a>
+        </li><li>
+          <a
+            href="https://www.technologiestiftung-berlin.de/"
+            target="_blank"
+            rel="noreferrer nofollow"
+            class={classes(
+              "flex flex-col gap-4",
+              "transition-opacity hover-hover:hover:opacity-80",
+              "focus-visible:outline-none",
+              "focus-visible:ring-2 focus-visible:ring-brandPink focus-visible:rounded-lg",
+              "focus-visible:ring-offset-8 focus-visible:ring-offset-background",
+              "focus-visible:bg-background"
+            )}
+          >
+            <p>Ein Projekt der</p>
+            <TSBLogo />
+          </a>
+        </li><li>
+          <a
+            href="https://www.berlin.de/rbmskzl/"
+            target="_blank"
+            rel="noreferrer nofollow"
+            class={classes(
+              "flex flex-col gap-4",
+              "transition-opacity hover-hover:hover:opacity-80",
+              "focus-visible:outline-none",
+              "focus-visible:ring-2 focus-visible:ring-brandPink focus-visible:rounded-lg",
+              "focus-visible:ring-offset-8 focus-visible:ring-offset-background",
+              "focus-visible:bg-background"
+            )}
+          >
+            <p>Gefördert durch</p>
+            <BuergermeisterLogo />
+          </a>
+        </li>
+      </ul>
+    </footer>
+  </section>
+</div>
+
+<script>
+  const openButton = document.getElementById("about-modal-open");
+  const closeButton = document.getElementById("about-modal-close");
+
+  openButton?.addEventListener("click", onOpen);
+  closeButton?.addEventListener("click", onClose);
+
+  function onOpen(evt: Event) {
+    evt.preventDefault();
+
+    const dialog = document.getElementById("about-modal") as HTMLDialogElement;
+    dialog.classList.remove("opacity-0", "pointer-events-none");
+  }
+
+  function onClose(evt: Event) {
+    evt.preventDefault();
+
+    const dialog = document.getElementById("about-modal") as HTMLDialogElement;
+    dialog.classList.add("opacity-0", "pointer-events-none");
+  }
+</script>
