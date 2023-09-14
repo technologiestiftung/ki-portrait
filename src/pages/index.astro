@@ -1,36 +1,10 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import ImageGallery from "../components/ImageGallery";
+import Layout from "../layouts/Layout.astro";
+import ThreeDGraph from "../components/ThreeDGraph.astro";
+// import TwoDGraph from "./TwoDGraph.astro";
 ---
 
-<Layout title="> ki.portrait">
-	<main>
-		<ImageGallery client:only />
-	</main>
+<Layout title="KI Portraits">
+  <ThreeDGraph />
+  <!-- <TwoDGraph /> -->
 </Layout>
-
-<style>
-	main {
-		margin: auto;
-		padding: 1.5rem;
-		max-width: 60ch;
-	}
-	.image-modal {
-  /* other styles... */
-  position: relative;
-}
-
-.image-modal .close-button {
-  /* other styles... */
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
-@media (max-width: 640px) {
-  .image-modal .close-button {
-    top: 10px;
-    right: 10px;
-  }
-}
-</style>

@@ -1,0 +1,61 @@
+---
+---
+
+<div id="threed-graph"></div>
+
+<style>
+  #threed-graph {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+</style>
+
+<script>
+  import ForceGraph3D from "3d-force-graph";
+  import { initSettings, settingsMap } from "../utils/initSettings";
+  import { getGraphData } from "../utils/dataUtil";
+  import {
+    getNodeClickHandler,
+    getMaxStrength,
+    getStrengthAccessor,
+    getImageRenderer,
+  } from "../utils/graphUtil";
+
+  const canvas = document.querySelector("#threed-graph") as HTMLCanvasElement;
+
+  if (!canvas) throw new Error("Canvas not found");
+
+  const NODE_SCALE = 12;
+
+  async function main() {
+    const data = await getGraphData();
+
+    const graph = ForceGraph3D()(canvas);
+    graph
+      // @ts-ignore
+      .nodeThreeObject(getImageRenderer(NODE_SCALE))
+      .onNodeClick(getNodeClickHandler(graph))
+      .linkVisibility(false)
+      .backgroundColor("#ffffff")
+      .graphData(data);
+
+    const maxStrength = getMaxStrength(data.links, settingsMap);
+    graph
+      .d3Force("link")
+      ?.strength(getStrengthAccessor(maxStrength, settingsMap));
+
+    initSettings((newPriorities) => {
+      const maxStrength = getMaxStrength(data.links, newPriorities);
+      const strengthAccessor = getStrengthAccessor(maxStrength, newPriorities);
+      graph.d3Force("link")?.strength(strengthAccessor);
+
+      graph.numDimensions(3);
+    });
+  }
+
+  main();
+</script>
