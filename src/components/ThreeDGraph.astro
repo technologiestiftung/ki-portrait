@@ -48,6 +48,11 @@
       .d3Force("link")
       ?.strength(getStrengthAccessor(maxStrength, settingsMap));
 
+    window.addEventListener("resize", () => {
+      graph.width(window.innerWidth);
+      graph.height(window.innerHeight);
+    });
+
     initSettings((newPriorities) => {
       const maxStrength = getMaxStrength(data.links, newPriorities);
       const strengthAccessor = getStrengthAccessor(maxStrength, newPriorities);

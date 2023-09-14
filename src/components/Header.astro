@@ -12,7 +12,7 @@ import classes from "../utils/classes";
     href="/"
     title="Zurück auf die Hauptseite"
     class={classes(
-      "flex gap-3 border-r border-border",
+      "flex gap-3",
       "px-5 pt-1.5 pb-2 items-center text-xl",
       "focus-visible:outline-none focus-visible:ring-2",
       "focus-visible:ring-offset-2 focus-visible:ring-brandPink",
@@ -41,16 +41,16 @@ import classes from "../utils/classes";
     id="about-modal-open"
     title="Open About Modal"
     class={classes(
-      "flex gap-2 text-discrete",
-      "px-5 pt-1.5 pb-2 items-center text-xl",
+      "flex gap-2 text-discrete border-l border-transparent",
+      "px-0 pt-1.5 pb-2 items-center text-xl",
       "focus-visible:outline-none focus-visible:ring-2",
       "focus-visible:ring-offset-2 focus-visible:ring-brandPink",
       "focus-visible:ring-offset-background focus-visible:ring-offset-2",
       "focus-visible:border-transparent focus-visible:rounded-full",
       "focus-visible:bg-background",
-      "transition hover-hover:hover:bg-brandPink",
+      "transition-all hover-hover:hover:bg-brandPink",
       "hover-hover:hover:text-white group",
-      "rounded-r-full"
+      "rounded-r-full max-w-[0px] whitespace-nowrap overflow-hidden"
     )}
   >
     <svg width="22" height="22" fill="none" class="opacity-80 mt-0.5">

@@ -159,17 +159,23 @@ import BuergermeisterLogo from "./BuergermeisterLogo.astro";
     evt.preventDefault();
 
     const dialog = document.getElementById("about-modal") as HTMLDialogElement;
+    const openButton = document.getElementById("about-modal-open");
     dialog.classList.remove(
       "opacity-0",
       "pointer-events-none",
       "translate-y-10"
     );
+    openButton?.classList.add("max-w-[0px]", "px-0", "border-transparent");
+    openButton?.classList.remove("max-w-[300px]", "px-5", "border-border");
   }
 
   function onClose(evt: Event) {
     evt.preventDefault();
 
     const dialog = document.getElementById("about-modal") as HTMLDialogElement;
+    const openButton = document.getElementById("about-modal-open");
     dialog.classList.add("opacity-0", "pointer-events-none", "translate-y-10");
+    openButton?.classList.remove("max-w-[0px]", "px-0", "border-transparent");
+    openButton?.classList.add("max-w-[300px]", "px-5", "border-border");
   }
 </script>
