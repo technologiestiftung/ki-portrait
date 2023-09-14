@@ -13,7 +13,7 @@ import BuergermeisterLogo from "./BuergermeisterLogo.astro";
   id="about-modal"
   class={classes(
     "fixed inset-0 z-10 flex items-center justify-center w-full h-full",
-    "text-text"
+    "text-text transition ease-out-extreme duration-1000"
   )}
 >
   <section
@@ -46,6 +46,7 @@ import BuergermeisterLogo from "./BuergermeisterLogo.astro";
           class={classes(
             "bg-brandPink text-white font-extrabold pt-1 pb-2 px-4 rounded-full",
             "text-xl",
+            "transition hover-hover:hover:bg-brandBlue",
             "focus-visible:outline-none",
             "focus-visible:ring-2 focus-visible:ring-brandPink",
             "focus-visible:ring-offset-2 focus-visible:ring-offset-background"
@@ -158,13 +159,17 @@ import BuergermeisterLogo from "./BuergermeisterLogo.astro";
     evt.preventDefault();
 
     const dialog = document.getElementById("about-modal") as HTMLDialogElement;
-    dialog.classList.remove("opacity-0", "pointer-events-none");
+    dialog.classList.remove(
+      "opacity-0",
+      "pointer-events-none",
+      "translate-y-10"
+    );
   }
 
   function onClose(evt: Event) {
     evt.preventDefault();
 
     const dialog = document.getElementById("about-modal") as HTMLDialogElement;
-    dialog.classList.add("opacity-0", "pointer-events-none");
+    dialog.classList.add("opacity-0", "pointer-events-none", "translate-y-10");
   }
 </script>
