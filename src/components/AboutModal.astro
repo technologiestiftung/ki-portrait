@@ -14,7 +14,8 @@ import Kiportraitgt from "./icons/Kiportraitgt.astro";
   id="about-modal"
   class={classes(
     "fixed inset-0 z-10 flex items-center justify-center w-full h-full",
-    "text-text transition ease-out-extreme duration-1000 p-2 sm:p-[5vmax]"
+    "text-text transition ease-out-extreme duration-1000 p-2 sm:p-[5vmax]",
+    "opacity-0 pointer-events-none translate-y-10"
   )}
 >
   <section
@@ -166,6 +167,10 @@ import Kiportraitgt from "./icons/Kiportraitgt.astro";
   openButton?.addEventListener("click", onOpen);
   closeButton?.addEventListener("click", onClose);
 
+  if (sessionStorage.getItem("about-modal-closed") !== "true") {
+    onOpen(new Event("click"));
+  }
+
   function onOpen(evt: Event) {
     evt.preventDefault();
 
@@ -180,6 +185,7 @@ import Kiportraitgt from "./icons/Kiportraitgt.astro";
     openButton?.classList.remove("max-w-[300px]", "px-5", "border-border");
 
     portraitState.deselect();
+    sessionStorage.setItem("about-modal-closed", "false");
   }
 
   function onClose(evt: Event) {
@@ -192,5 +198,6 @@ import Kiportraitgt from "./icons/Kiportraitgt.astro";
     openButton?.classList.add("max-w-[300px]", "px-5", "border-border");
 
     portraitState.deselect();
+    sessionStorage.setItem("about-modal-closed", "true");
   }
 </script>
