@@ -13,10 +13,11 @@ import Kiportraitgt from "./icons/Kiportraitgt.astro";
 <div
   id="about-modal"
   class={classes(
-    "fixed inset-0 z-10 flex items-center justify-center w-full h-full",
+    "fixed inset-0 z-20 flex items-center justify-center w-full h-full",
     "text-text transition ease-out-extreme duration-1000 p-2 sm:p-[5vmax]",
     "opacity-0 pointer-events-none translate-y-10"
   )}
+  inert
 >
   <section
     class={classes(
@@ -176,11 +177,14 @@ import Kiportraitgt from "./icons/Kiportraitgt.astro";
 
     const dialog = document.getElementById("about-modal") as HTMLDialogElement;
     const openButton = document.getElementById("about-modal-open");
+    const closeButton = document.getElementById("about-modal-close");
     dialog.classList.remove(
       "opacity-0",
       "pointer-events-none",
       "translate-y-10"
     );
+    dialog.removeAttribute("inert");
+    closeButton?.focus();
     openButton?.classList.add("max-w-[0px]", "px-0", "border-transparent");
     openButton?.classList.remove("max-w-[300px]", "px-5", "border-border");
 
@@ -193,7 +197,10 @@ import Kiportraitgt from "./icons/Kiportraitgt.astro";
 
     const dialog = document.getElementById("about-modal") as HTMLDialogElement;
     const openButton = document.getElementById("about-modal-open");
+    const closeButton = document.getElementById("about-modal-close");
     dialog.classList.add("opacity-0", "pointer-events-none", "translate-y-10");
+    dialog.setAttribute("inert", "");
+    closeButton?.blur();
     openButton?.classList.remove("max-w-[0px]", "px-0", "border-transparent");
     openButton?.classList.add("max-w-[300px]", "px-5", "border-border");
 

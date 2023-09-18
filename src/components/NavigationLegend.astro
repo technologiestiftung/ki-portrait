@@ -12,7 +12,9 @@ import ClickIcon from "./icons/ClickIcon.astro";
   class={classes(
     "collapsed",
     "fixed bottom-2 left-2 bg-background shadow border border-border",
-    "rounded-3xl overflow-hidden z-10 flex-col-reverse sm:flex-row"
+    "rounded-3xl overflow-hidden z-10 flex-col-reverse sm:flex-row",
+    "[&:has(button:focus-visible)]:ring-2 ring-brandPink",
+    "[&:has(button:focus-visible)]:ring-offset-2 ring-offset-background"
   )}
 >
   <div class="relative flex gap-4 flex-wrap sm:flex-nowrap shrink-0">
@@ -22,6 +24,7 @@ import ClickIcon from "./icons/ClickIcon.astro";
         "rounded-full bg-background shadow ring-1 ring-border",
         "hover-hover:hover:bg-brandPink hover-hover:hover:text-white",
         "transition-colors cursor-pointer min-w-10 h-10 flex items-center justify-center",
+        "focus-visible:outline-none",
         "shrink-0 flex px-2"
       )}
     >
