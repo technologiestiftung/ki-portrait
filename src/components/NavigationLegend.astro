@@ -1,0 +1,117 @@
+---
+import PanIcon from "./icons/PanIcon.astro";
+import CrossIcon from "./icons/CrossIcon.astro";
+import classes from "../utils/classes";
+import Rotate3DIcon from "./icons/Rotate3dIcon.astro";
+import ZoomIcon from "./icons/ZoomIcon.astro";
+import ClickIcon from "./icons/ClickIcon.astro";
+---
+
+<div
+  id="navigation-legend"
+  class={classes(
+    "collapsed",
+    "fixed bottom-2 left-2 bg-background shadow border border-border",
+    "rounded-full overflow-hidden"
+  )}
+>
+  <div class="relative flex gap-4">
+    <button
+      id="navigation-lengend-toggle"
+      class={classes(
+        "rounded-full bg-background shadow ring-1 ring-border",
+        "hover-hover:hover:bg-brandPink hover-hover:hover:text-white",
+        "transition-colors cursor-pointer min-w-12 h-12 flex items-center justify-center",
+        "shrink-0 flex px-3"
+      )}
+    >
+      <span class="sr-only">Toggle navigation legend</span>
+      <CrossIcon class="cross-icon" />
+      <PanIcon class="pan-icon" />
+      <span class="text whitespace-nowrap text-inherit">
+        <span class="mx-2">Wie navigiere ich?</span>
+      </span>
+    </button>
+    <ul class="flex gap-4">
+      <li
+        class={classes(
+          "text-discrete flex gap-3 flex-nowrap whitespace-nowrap",
+          "py-3 pr-4 border-r border-border"
+        )}
+      >
+        <Rotate3DIcon class="opacity-80" />
+        <span>3D Rotation: Linksklick & drag</span>
+      </li>
+      <li
+        class={classes(
+          "text-discrete flex gap-3 flex-nowrap whitespace-nowrap",
+          "py-3 pr-4 border-r border-border"
+        )}
+      >
+        <PanIcon class="opacity-80" />
+        <span>Pan: Rechtsklick & drag</span>
+      </li>
+      <li
+        class={classes(
+          "text-discrete flex gap-3 flex-nowrap whitespace-nowrap",
+          "py-3 pr-4 border-r border-border"
+        )}
+      >
+        <ZoomIcon class="opacity-80" />
+        <span>Zoom: Mousewheel</span>
+      </li>
+      <li
+        class={classes(
+          "text-discrete flex gap-3 flex-nowrap whitespace-nowrap",
+          "py-3 pr-4"
+        )}
+      >
+        <ClickIcon class="opacity-80" />
+        <span>Portrait Info: Linksklick</span>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<style is:global>
+  #navigation-legend.collapsed {
+    max-width: 179px;
+  }
+  #navigation-legend,
+  #navigation-legend .text {
+    will-change: width;
+    @apply transition-all overflow-hidden duration-700 ease-out-extreme;
+  }
+  #navigation-legend {
+    @apply duration-300;
+  }
+  #navigation-legend.expanded {
+    max-width: 100%;
+  }
+  #navigation-legend.expanded .pan-icon,
+  #navigation-legend.collapsed .cross-icon {
+    display: none;
+  }
+  #navigation-legend.collapsed .pan-icon,
+  #navigation-legend.expanded .cross-icon {
+    display: block;
+  }
+
+  #navigation-legend .text {
+    max-width: 0;
+  }
+
+  #navigation-legend.collapsed .text {
+    max-width: 200px;
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById("navigation-lengend-toggle");
+  const legend = document.getElementById("navigation-legend");
+
+  toggle?.addEventListener("click", () => {
+    legend?.classList.toggle("collapsed");
+    legend?.classList.toggle("expanded");
+  });
+</script>
