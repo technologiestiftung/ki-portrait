@@ -1,0 +1,90 @@
+---
+---
+
+<div id="threed-graph"></div>
+
+<style>
+  #threed-graph {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+</style>
+
+<script>
+  import ForceGraph3D from "3d-force-graph";
+  import { graphSettings } from "../utils/GraphSettings";
+  import { getGraphData } from "../utils/dataUtil";
+  import {
+    getNodeClickHandler,
+    getMaxStrength,
+    getStrengthAccessor,
+    getImageRenderer,
+  } from "../utils/graphUtil";
+  import type { PortraitWithCoordinates } from "../utils/graphUtil";
+  import portraitState from "../utils/PortraitState";
+
+  const canvas = document.querySelector("#threed-graph") as HTMLCanvasElement;
+
+  if (!canvas) throw new Error("Canvas not found");
+
+  const NODE_SCALE = 16;
+
+  async function main() {
+    const data = await getGraphData();
+
+    const graph = ForceGraph3D()(canvas);
+
+    portraitState.onSelect((p) => console.log("select", p));
+    portraitState.onDeselect(() => {
+      graph.zoomToFit(1000, -1000);
+    });
+    const zoomClickHandler = getNodeClickHandler(graph);
+    graph
+      // @ts-ignore
+      .nodeThreeObject(getImageRenderer(NODE_SCALE))
+      .onNodeClick((nd) => {
+        const node = nd as PortraitWithCoordinates;
+        const selectedPortrait = portraitState.getSelectedPortrait();
+        if (selectedPortrait && selectedPortrait.id === node.id) {
+          portraitState.deselect();
+          return;
+        }
+        zoomClickHandler(node);
+        portraitState.select(node);
+      })
+      .onBackgroundClick(() => {
+        portraitState.deselect();
+      })
+      .enableNodeDrag(false)
+      .linkVisibility(false)
+      .backgroundColor("#ffffff")
+      .showNavInfo(false)
+      .graphData(data);
+    graph.cameraPosition({ z: 700 });
+
+    const maxStrength = getMaxStrength(data.links, graphSettings.getSettings());
+    graph
+      .d3Force("link")
+      ?.strength(getStrengthAccessor(maxStrength, graphSettings.getSettings()));
+
+    window.addEventListener("resize", () => {
+      graph.width(window.innerWidth);
+      graph.height(window.innerHeight);
+    });
+
+    graphSettings.onAnyChange(() => {
+      const newPriorities = graphSettings.getSettings();
+      const maxStrength = getMaxStrength(data.links, newPriorities);
+      const strengthAccessor = getStrengthAccessor(maxStrength, newPriorities);
+      graph.d3Force("link")?.strength(strengthAccessor);
+
+      graph.numDimensions(3);
+    });
+  }
+
+  main();
+</script>

@@ -1,0 +1,19 @@
+---
+import classes from "../../utils/classes";
+const { class: cls, ...attrs } = Astro.props;
+---
+
+<svg width="24" height="25" fill="none" class={classes(cls)} {...attrs}>
+  <g
+    stroke="currentColor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="2"
+    opacity=".8"
+    ><path
+      d="M16.466 8.25c-.823-3.263-2.514-5.5-4.466-5.5-2.761 0-5 4.477-5 10s2.239 10 5 10c.342 0 .677-.069 1-.2m2.194-8.093 3.814 1.86-1.86 3.814"
+    ></path><path
+      d="M19 16.32c-1.804.885-4.274 1.43-7 1.43-5.523 0-10-2.239-10-5s4.477-5 10-5c4.838 0 8.873 1.718 9.8 4"
+    ></path></g
+  >
+</svg>

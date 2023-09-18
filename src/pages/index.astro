@@ -1,36 +1,29 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import ImageGallery from "../components/ImageGallery";
+import Layout from "../layouts/Layout.astro";
+import ThreeDGraph from "../components/ThreeDGraph.astro";
+import Header from "../components/Header.astro";
+import AboutModal from "../components/AboutModal.astro";
+import Footer from "../components/Footer.astro";
+import PromptBox from "../components/PromptBox.astro";
+import NavigationLegend from "../components/NavigationLegend.astro";
+import SettingsModal from "../components/SettingsModal.astro";
 ---
 
-<Layout title="> ki.portrait">
-	<main>
-		<ImageGallery client:only />
-	</main>
+<Layout title=">ki.portrait Galerie">
+  <ThreeDGraph />
+  <Footer />
+  <Header />
+  <PromptBox />
+  <SettingsModal />
+  <AboutModal />
+  <NavigationLegend />
 </Layout>
 
-<style>
-	main {
-		margin: auto;
-		padding: 1.5rem;
-		max-width: 60ch;
-	}
-	.image-modal {
-  /* other styles... */
-  position: relative;
-}
-
-.image-modal .close-button {
-  /* other styles... */
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
-@media (max-width: 640px) {
-  .image-modal .close-button {
-    top: 10px;
-    right: 10px;
-  }
-}
-</style>
+<script>
+  window.addEventListener("scroll", (evt) => {
+    evt.preventDefault();
+  });
+  window.addEventListener("wheel", (evt) => {
+    evt.preventDefault();
+  });
+</script>
