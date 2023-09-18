@@ -40,7 +40,7 @@
 
     portraitState.onSelect((p) => console.log("select", p));
     portraitState.onDeselect(() => {
-      graph.zoomToFit(1000);
+      graph.zoomToFit(1000, -1000);
     });
     const zoomClickHandler = getNodeClickHandler(graph);
     graph
@@ -64,6 +64,7 @@
       .backgroundColor("#ffffff")
       .showNavInfo(false)
       .graphData(data);
+    graph.cameraPosition({ z: 700 });
 
     const maxStrength = getMaxStrength(data.links, graphSettings.getSettings());
     graph
