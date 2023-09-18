@@ -48,6 +48,11 @@
       .nodeThreeObject(getImageRenderer(NODE_SCALE))
       .onNodeClick((nd) => {
         const node = nd as PortraitWithCoordinates;
+        const selectedPortrait = portraitState.getSelectedPortrait();
+        if (selectedPortrait && selectedPortrait.id === node.id) {
+          portraitState.deselect();
+          return;
+        }
         zoomClickHandler(node);
         portraitState.select(node);
       })

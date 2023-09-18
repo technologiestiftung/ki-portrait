@@ -26,6 +26,10 @@ class PortraitState {
     listeners.forEach((listener) => listener());
   }
 
+  public getSelectedPortrait() {
+    return this.selectedPortrait;
+  }
+
   onSelect(listener: SelectListenerType) {
     const listeners =
       this.listeners.get("select") || ([] as SelectListenerType[]);
