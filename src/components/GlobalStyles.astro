@@ -1,0 +1,132 @@
+---
+---
+
+<style is:global>
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
+
+  @layer base {
+    @font-face {
+      font-family: "National";
+      src: url("/fonts/National/National-Regular.eot");
+      src: url("/fonts/National/National-Regular.eot?#iefix")
+          format("embedded-opentype"),
+        url("/fonts/National/National-Regular.woff2") format("woff2"),
+        url("/fonts/National/National-Regular.woff") format("woff"),
+        url("/fonts/National/National-Regular.svg#National-Regular")
+          format("svg");
+      font-weight: normal;
+      font-style: normal;
+      text-rendering: optimizeLegibility;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "National";
+      src: url("/fonts/National/National-RegularItalic.eot");
+      src: url("/fonts/National/National-RegularItalic.eot?#iefix")
+          format("embedded-opentype"),
+        url("/fonts/National/National-RegularItalic.woff2") format("woff2"),
+        url("/fonts/National/National-RegularItalic.woff") format("woff"),
+        url("/fonts/National/National-RegularItalic.svg#National-RegularItalic")
+          format("svg");
+      font-weight: normal;
+      font-style: italic;
+      text-rendering: optimizeLegibility;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "National";
+      src: url("/fonts/National/National-Extrabold.eot");
+      src: url("/fonts/National/National-Extrabold.eot?#iefix")
+          format("embedded-opentype"),
+        url("/fonts/National/National-Extrabold.woff2") format("woff2"),
+        url("/fonts/National/National-Extrabold.woff") format("woff"),
+        url("/fonts/National/National-Extrabold.svg#National-Extrabold")
+          format("svg");
+      font-weight: 900;
+      font-style: normal;
+      text-rendering: optimizeLegibility;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "National";
+      src: url("/fonts/National/National-ExtraboldItalic.eot");
+      src: url("/fonts/National/National-ExtraboldItalic.eot?#iefix")
+          format("embedded-opentype"),
+        url("/fonts/National/National-ExtraboldItalic.woff2") format("woff2"),
+        url("/fonts/National/National-ExtraboldItalic.woff") format("woff"),
+        url("/fonts/National/National-ExtraboldItalic.svg#National-ExtraboldItalic")
+          format("svg");
+      font-weight: 900;
+      font-style: italic;
+      text-rendering: optimizeLegibility;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "National";
+      src: url("/fonts/National/National-Medium.eot");
+      src: url("/fonts/National/National-Medium.eot?#iefix")
+          format("embedded-opentype"),
+        url("/fonts/National/National-Medium.woff2") format("woff2"),
+        url("/fonts/National/National-Medium.woff") format("woff"),
+        url("/fonts/National/National-Medium.svg#National-Medium") format("svg");
+      font-weight: 700;
+      font-style: normal;
+      text-rendering: optimizeLegibility;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "National";
+      src: url("/fonts/National/National-Bold.eot");
+      src: url("/fonts/National/National-Bold.eot?#iefix")
+          format("embedded-opentype"),
+        url("/fonts/National/National-Bold.woff2") format("woff2"),
+        url("/fonts/National/National-Bold.woff") format("woff"),
+        url("/fonts/National/National-Bold.svg#National-Bold") format("svg");
+      font-weight: 600;
+      font-style: normal;
+      text-rendering: optimizeLegibility;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "National";
+      src: url("/fonts/National/National-Light.eot");
+      src: url("/fonts/National/National-Light.eot?#iefix")
+          format("embedded-opentype"),
+        url("/fonts/National/National-Light.woff2") format("woff2"),
+        url("/fonts/National/National-Light.woff") format("woff"),
+        url("/fonts/National/National-Light.svg#National-Light") format("svg");
+      font-weight: 300;
+      font-style: normal;
+      text-rendering: optimizeLegibility;
+      font-display: swap;
+    }
+
+    body,
+    html {
+      @apply font-sans text-text bg-background;
+    }
+
+    :root {
+      --brand-pink: #f64c72;
+      --brand-blue: #2f2fa2;
+      --brand-black: #393a61;
+      --background: #ffffff;
+      --text: var(--brand-black);
+      --border: #d5d5de;
+      --discrete: #6d6d8c;
+    }
+
+    ::-moz-selection,
+    ::selection {
+      background: var(--brand-pink);
+    }
+  }
+</style>

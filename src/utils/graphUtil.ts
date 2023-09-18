@@ -1,6 +1,7 @@
 import type { ForceGraph3DInstance } from "3d-force-graph";
 import type { LinkType } from "../../scripts/lib/parseFor3dGraph";
 import * as THREE from "three";
+import type { ParsedPortraitType } from "../../scripts/lib/parsePortraitData";
 
 export function getMaxStrength(
   links: LinkType[] = [],
@@ -44,10 +45,19 @@ export function getImageRenderer(displayScale: number) {
   };
 }
 
+export type PortraitWithCoordinates = ParsedPortraitType & {
+  vx: number;
+  vy: number;
+  vz: number;
+  x: number;
+  y: number;
+  z: number;
+};
+
 export function getNodeClickHandler(graph: ForceGraph3DInstance) {
   return function onNodeClick(nd: object) {
-    const node = nd as { x: number; y: number; z: number };
-    const distance = 40;
+    const node = nd as PortraitWithCoordinates;
+    const distance = window.innerWidth > 600 ? 25 : 40;
     const distRatio = 1 + distance / Math.hypot(node.x, node.y, node.z);
 
     const newPos =

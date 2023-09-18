@@ -1,10 +1,29 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import ThreeDGraph from "../components/ThreeDGraph.astro";
-// import TwoDGraph from "./TwoDGraph.astro";
+import Header from "../components/Header.astro";
+import AboutModal from "../components/AboutModal.astro";
+import Footer from "../components/Footer.astro";
+import PromptBox from "../components/PromptBox.astro";
+import NavigationLegend from "../components/NavigationLegend.astro";
+import SettingsModal from "../components/SettingsModal.astro";
 ---
 
-<Layout title="KI Portraits">
+<Layout title=">ki.portrait Galerie">
   <ThreeDGraph />
-  <!-- <TwoDGraph /> -->
+  <Footer />
+  <Header />
+  <PromptBox />
+  <SettingsModal />
+  <AboutModal />
+  <NavigationLegend />
 </Layout>
+
+<script>
+  window.addEventListener("scroll", (evt) => {
+    evt.preventDefault();
+  });
+  window.addEventListener("wheel", (evt) => {
+    evt.preventDefault();
+  });
+</script>

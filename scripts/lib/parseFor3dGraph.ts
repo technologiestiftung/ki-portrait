@@ -1,4 +1,4 @@
-import { settingsMap } from "./../../src/utils/initSettings.ts";
+import { settingsDefaults } from "../../src/utils/settingsDefaults.js";
 import type { ParsedPortraitType } from "./parsePortraitData.ts";
 
 export type LinkType = {
@@ -23,7 +23,7 @@ export function parseFor3dGraph(parsedPortraitData: ParsedPortraitType[]) {
 
 function getPortraitsByProperties(parsedPortraitData: ParsedPortraitType[]) {
   const portraitsByProperties = new Set<PortraitGroupType>();
-  for (const [property] of settingsMap) {
+  for (const property of Object.keys(settingsDefaults)) {
     const portraitsWithSameProperty = getPortraitsByProperty(
       parsedPortraitData,
       property

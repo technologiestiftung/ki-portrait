@@ -1,0 +1,82 @@
+---
+import classes from "../utils/classes";
+---
+
+<footer class={classes("fixed z-0 right-4 bottom-4")}>
+  <ul class="flex flex-col items-end sm:items-start sm:flex-row gap-0 sm:gap-6">
+    <li>
+      <a
+        href="https://www.technologiestiftung-berlin.de/datenschutz"
+        target="_blank"
+        rel="noopener noreferrer"
+        class={classes(
+          "text-discrete underline opacity-60",
+          "hover-hover:hover:text-brandPink transition-colors",
+          "focus-visible:outline-none",
+          "focus-visible:ring-2 focus-visible:ring-brandPink",
+          "focus-visible:ring-offset-8 focus-visible:ring-offset-background",
+          "focus-visible:rounded-full focus-visible:bg-background"
+        )}
+      >
+        Datenschutz
+      </a>
+    </li><li>
+      <a
+        href="https://www.technologiestiftung-berlin.de/impressum"
+        target="_blank"
+        rel="noopener noreferrer"
+        class={classes(
+          "text-discrete underline opacity-60",
+          "hover-hover:hover:text-brandPink transition-colors",
+          "focus-visible:outline-none",
+          "focus-visible:ring-2 focus-visible:ring-brandPink",
+          "focus-visible:ring-offset-8 focus-visible:ring-offset-background",
+          "focus-visible:rounded-full focus-visible:bg-background"
+        )}
+      >
+        Impressum
+      </a>
+    </li>
+    <li class="pt-4 sm:pt-0">
+      <a
+        href="https://citylab-berlin.org/de/start/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class={classes(
+          "text-discrete group block",
+          "hover-hover:hover:text-brandPink transition-colors",
+          "focus-visible:outline-none",
+          "focus-visible:ring-2 focus-visible:ring-brandPink",
+          "focus-visible:ring-offset-8 focus-visible:ring-offset-background",
+          "focus-visible:rounded-full focus-visible:bg-background"
+        )}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="120"
+          height="24"
+          fill="none"
+          class="opacity-80 transition-opacity hover-hover:group-hover:opacity-100"
+          ><g
+            fill="currentColor"
+            fill-rule="evenodd"
+            clip-path="url(#a)"
+            clip-rule="evenodd"
+            opacity=".8"
+            ><path
+              d="m13.054 16.877-3.948-2.245L9.181 4.6l8.06-4.6 3.824 2.182-.016 10.096-7.995 4.599Z"
+            ></path><path
+              d="m9.545 3.376-1.272.733-.033 4.462-4.514 2.605-.06 8.112L0 17.18.074 7.13l7.989-4.608 1.482.855Z"
+            ></path><path
+              d="m8.294 9.644-.042 5.578 4.823 2.765 3.382-1.961-.005 3.376L8.523 24l-3.915-2.245.075-10.032 3.61-2.08ZM37.45 13.574c-.77 1.33-1.755 1.988-3.697 1.988-2.312 0-3.91-1.602-3.91-4.405 0-2.804 1.527-4.363 4.167-4.363 1.8 0 2.898.816 3.512 2.174l-2.084 1.016c-.228-.787-.585-1.287-1.485-1.287-1.184 0-1.912.944-1.912 2.517 0 1.544.656 2.445 1.97 2.445.67 0 1.27-.386 1.57-1.158l1.87 1.073ZM38.597 15.452h2.087V8.864h-2.087v6.588Zm1.044-9.753c.733 0 1.282.385 1.282 1.183 0 .77-.55 1.17-1.282 1.17-.677 0-1.241-.4-1.241-1.17 0-.798.564-1.183 1.24-1.183ZM47.067 15.117c-.599.302-1.312.445-2.167.445-1.34 0-2.253-.617-2.253-2.22v-2.938h-.956V8.771h.97V7.367l2.11-.244v1.648h1.954v1.633h-1.968v2.45c0 .688.271.903.785.903.413 0 .784-.158 1.169-.43l.356 1.79ZM50.49 11.588c.357 1.296.43 2.16.43 2.16h.056s.072-.879.459-2.16l.859-2.82h2.234l-2.678 7.254c-.773 2.087-1.704 2.389-3.136 2.389-.401 0-.874-.072-1.246-.158l.33-1.9c.243.158.558.244.873.244.573 0 .945-.216 1.174-.806l-2.448-7.024h2.32l.773 2.821ZM57.76 7.014v6.575h3.131v1.863h-5.266V7.014h2.135ZM64.83 12.085h1.882l-.23-.644c-.502-1.404-.675-2.465-.675-2.465h-.057s-.216 1.075-.69 2.45l-.23.66Zm2.514 1.791h-3.117l-.532 1.576H61.44l3.06-8.438h2.629l3.088 8.438h-2.313l-.56-1.576ZM73.578 13.633h1.35c.632 0 1.006-.172 1.006-.817 0-.53-.374-.788-1.006-.788h-1.35v1.605Zm1.078-3.152c.588 0 .962-.215.962-.803 0-.63-.36-.845-1.006-.845h-1.034v1.648h1.078Zm1.594.673c1.263.186 1.867 1.003 1.867 2.006 0 1.375-.934 2.292-3.002 2.292h-3.691V7.014h3.72c1.709 0 2.614.802 2.614 2.12 0 1.046-.59 1.719-1.508 1.963v.057ZM86.551 10.48c.584 0 1.097-.214 1.097-.916 0-.53-.3-.73-.855-.73h-.969l-.284 1.647h1.011Zm-1.567 3.153h1.34c.669 0 1.139-.258 1.139-.917 0-.43-.228-.688-.855-.688h-1.34l-.284 1.605Zm2.92-2.493c1.225.186 1.667.96 1.667 1.776 0 1.72-1.353 2.536-3.405 2.536h-3.66l1.467-8.438h3.476c1.723 0 2.407.788 2.407 1.89 0 1.276-.883 2.035-1.937 2.178l-.015.058ZM95.001 11.348c.015-.085.029-.185.029-.3 0-.469-.158-.839-.716-.839-.573 0-.916.527-1.074 1.14H95Zm-.143 1.765 2.034.484c-.387 1.338-1.303 1.965-3.165 1.965-1.905 0-2.993-1.11-2.993-2.862 0-2.605 1.747-4.042 3.666-4.042 1.919 0 2.807 1.153 2.807 2.39 0 .528-.1 1.04-.286 1.41h-3.91c-.172.869.186 1.481.888 1.481.486 0 .816-.2.96-.826ZM103.069 11.23c-.946-.502-2.237-.358-2.48 1.034l-.559 3.188h-2.165l1.161-6.634h1.892l-.042 1.824c.458-1.364 1.562-2.226 2.694-1.924l-.501 2.512ZM105.999 13.24c-.058.315-.029.588.405.588.13 0 .26-.029.433-.072l-.347 1.62a3.967 3.967 0 0 1-1.142.186c-1.317 0-1.837-.66-1.62-1.935l1.388-7.71h2.185l-1.302 7.323ZM110.178 5.59c.738 0 1.292.386 1.292 1.187 0 .773-.554 1.174-1.292 1.174-.682 0-1.249-.4-1.249-1.174 0-.801.567-1.188 1.249-1.188Zm.057 7.543c-.057.315-.029.587.397.587.128 0 .256-.029.426-.072l-.341 1.618a3.831 3.831 0 0 1-1.121.186c-1.292 0-1.803-.658-1.59-1.933l.837-4.752h2.144l-.752 4.366ZM118.643 13.15c-.058.312-.029.582.403.582.13 0 .26-.028.433-.071l-.346 1.606c-.36.114-.779.185-1.139.185-1.311 0-1.83-.654-1.614-1.92l.36-2.046c.101-.597-.014-1.08-.677-1.08-.519 0-.951.455-1.139 1.492l-.62 3.483h-2.176l1.168-6.567h1.902l.029 1.336c.418-.966 1.009-1.492 2.119-1.492 1.052 0 1.715.668 1.715 1.677 0 .227-.015.383-.043.554l-.375 2.26Z"
+            ></path></g
+          ><defs
+            ><clipPath id="a"
+              ><path fill="#fff" d="M0 0h119.479v24H0z"></path></clipPath
+            ></defs
+          ></svg
+        >
+      </a>
+    </li>
+  </ul>
+</footer>
