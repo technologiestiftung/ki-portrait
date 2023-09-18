@@ -16,7 +16,7 @@
 
 <script>
   import ForceGraph3D from "3d-force-graph";
-  import { initSettings, settingsMap } from "../utils/initSettings";
+  import { graphSettings } from "../utils/initSettings";
   import { getGraphData } from "../utils/dataUtil";
   import {
     getNodeClickHandler,
@@ -61,17 +61,18 @@
       .showNavInfo(false)
       .graphData(data);
 
-    const maxStrength = getMaxStrength(data.links, settingsMap);
+    const maxStrength = getMaxStrength(data.links, graphSettings.getSettings());
     graph
       .d3Force("link")
-      ?.strength(getStrengthAccessor(maxStrength, settingsMap));
+      ?.strength(getStrengthAccessor(maxStrength, graphSettings.getSettings()));
 
     window.addEventListener("resize", () => {
       graph.width(window.innerWidth);
       graph.height(window.innerHeight);
     });
 
-    initSettings((newPriorities) => {
+    graphSettings.onAnyChange(() => {
+      const newPriorities = graphSettings.getSettings();
       const maxStrength = getMaxStrength(data.links, newPriorities);
       const strengthAccessor = getStrengthAccessor(maxStrength, newPriorities);
       graph.d3Force("link")?.strength(strengthAccessor);

@@ -1,34 +1,52 @@
-import { GUI } from "dat.gui";
 import { settingsDefaults } from "./settingsDefaults";
 
-class Settings {
-  material = settingsDefaults.material;
-  colorHue = settingsDefaults.colorHue;
-  colorLightness = settingsDefaults.colorLightness;
-  colorSaturation = settingsDefaults.colorSaturation;
-  style = settingsDefaults.style;
-  gender = settingsDefaults.gender;
-}
-
-const settings = new Settings();
 type SettingsKey = keyof typeof settingsDefaults;
-export const settingsMap = new Map(Object.entries(settings)) as Map<
-  SettingsKey,
-  number
->;
 
-export function initSettings(
-  onValueChange: (priorities: Map<SettingsKey, number>) => void
-) {
-  const gui = new GUI();
+type ListenerType = (newValue: number) => void;
+type ListenersType = Map<SettingsKey, ListenerType[]>;
 
-  Object.keys(settingsDefaults).forEach((propertyName) => {
-    const controller = gui
-      .add(settings, propertyName as keyof Settings, 0, 20, 1)
-      .name(`${propertyName} priority: `);
-    controller.onChange((priority) => {
-      settingsMap.set(propertyName as SettingsKey, priority);
-      onValueChange(settingsMap);
-    });
-  });
+class GraphSettings {
+  private settings: Map<SettingsKey, number> = new Map([
+    ["material", settingsDefaults.material],
+    ["colorHue", settingsDefaults.colorHue],
+    ["colorSaturation", settingsDefaults.colorSaturation],
+    ["colorLightness", settingsDefaults.colorLightness],
+    ["style", settingsDefaults.style],
+    ["gender", settingsDefaults.gender],
+  ]);
+  private listeners: ListenersType = new Map();
+
+  public getSettings() {
+    return this.settings;
+  }
+
+  public getSetting(key: SettingsKey) {
+    return this.settings.get(key);
+  }
+
+  public change(value: SettingsKey, newValue: number) {
+    this.settings.set(value, newValue);
+    this.listeners.get(value)?.forEach((listener) => listener(newValue));
+  }
+
+  public onAnyChange(callback: ListenerType) {
+    this.listeners.forEach((_, key) => this.onChange(key, callback));
+  }
+
+  public offAnyChange(callback: ListenerType) {
+    this.listeners.forEach((_, key) => this.offChange(key, callback));
+  }
+
+  public onChange(value: SettingsKey, callback: ListenerType) {
+    this.listeners.set(value, [...(this.listeners.get(value) || []), callback]);
+  }
+
+  public offChange(value: SettingsKey, callback: ListenerType) {
+    this.listeners.set(
+      value,
+      (this.listeners.get(value) || []).filter((l) => l !== callback)
+    );
+  }
 }
+
+export const graphSettings = new GraphSettings();
