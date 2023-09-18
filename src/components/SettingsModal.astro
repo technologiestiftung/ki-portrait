@@ -1,7 +1,6 @@
 ---
 import classes from "../utils/classes";
 import { settingsDefaults } from "../utils/settingsDefaults";
-import type { SettingsKey } from "../utils/GraphSettings";
 import MinusIcon from "./icons/MinusIcon.astro";
 import PlusIcon from "./icons/PlusIcon.astro";
 ---
@@ -10,8 +9,8 @@ import PlusIcon from "./icons/PlusIcon.astro";
   id="settings-modal"
   class={classes(
     "collapsed",
-    "fixed right-2 top-2 rounded-3xl shadow bg-background",
-    "border border-border",
+    "fixed right-2 top-14 sm:top-2 rounded-3xl shadow bg-background",
+    "border border-border w-[calc(100vw-1rem)] sm:w-auto z-10",
     "flex flex-col overflow-hidden"
   )}
 >
@@ -29,7 +28,7 @@ import PlusIcon from "./icons/PlusIcon.astro";
     <span
       class={classes(
         "flex items-center justify-center",
-        "shrink-0 flex p-3 text-discrete text-opacity-80",
+        "shrink-0 flex p-2 text-discrete text-opacity-80",
         "hover-hover:group-hover:text-white transition-colors"
       )}
     >
