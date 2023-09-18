@@ -5,19 +5,26 @@ import classes from "../utils/classes";
 <div
   id="prompt-box"
   class={classes(
-    "fixed inset-y-0 right-0 p-6 sm:p-14",
-    "max-w-lg transition duration-1000 ease-out-extreme opacity-0",
-    "flex items-center translate-y-10"
+    "fixed z-10 bottom-14 xl:bottom-0 xl:top-0 right-0 px-2",
+    "transition duration-1000 ease-out-extreme opacity-0",
+    "flex justify-center xl:justify-end xl:items-center",
+    "w-full translate-y-10 pointer-events-none"
   )}
 >
   <div
     class={classes(
-      "bg-background rounded-lg border border-border",
-      "p-8 sm:p-[min(32px,5max)] shadow-lg"
+      "bg-background rounded-3xl border border-border",
+      "p-4 sm:p-[min(32px,5max)] shadow-lg",
+      "max-w-lg xl:max-w-xs"
     )}
   >
     <small class="uppercase text-discrete text-base">Prompt</small>
-    <h2 id="promt" class="text-3xl italic">No prompt</h2>
+    <h2 id="promt" class="text-base xl:text-xl italic">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium
+      quaerat fuga, corporis maxime voluptas accusamus dicta tenetur cumque
+      vitae. Commodi atque officia voluptas maiores debitis quam doloribus totam
+      adipisci. Voluptatum!
+    </h2>
     <div id="color-palette"></div>
   </div>
 </div>
@@ -31,7 +38,7 @@ import classes from "../utils/classes";
     if (!prompt || !promptBox) return;
     prompt.innerHTML = portrait.prompt || "";
     promptBox.classList.add("opacity-100");
-    promptBox.classList.remove("pointer-events-none", "translate-y-10");
+    promptBox.classList.remove("translate-y-10");
 
     const palette = document.getElementById("color-palette");
     if (!palette) return;
@@ -45,7 +52,7 @@ import classes from "../utils/classes";
     });
     if (!pills || pills.length === 0) return;
     const ul = document.createElement("ul");
-    ul.classList.add("flex", "gap-2", "mt-6");
+    ul.classList.add("flex", "gap-2", "mt-3");
     pills.forEach((pill) => ul.appendChild(pill));
     palette.appendChild(ul);
   });
@@ -54,6 +61,6 @@ import classes from "../utils/classes";
     const promptBox = document.getElementById("prompt-box");
     if (!promptBox) return;
     promptBox.classList.remove("opacity-100");
-    promptBox.classList.add("pointer-events-none", "translate-y-10");
+    promptBox.classList.add("translate-y-10");
   });
 </script>

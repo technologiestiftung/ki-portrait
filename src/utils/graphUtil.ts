@@ -57,7 +57,7 @@ export type PortraitWithCoordinates = ParsedPortraitType & {
 export function getNodeClickHandler(graph: ForceGraph3DInstance) {
   return function onNodeClick(nd: object) {
     const node = nd as PortraitWithCoordinates;
-    const distance = 40;
+    const distance = window.innerWidth > 600 ? 25 : 40;
     const distRatio = 1 + distance / Math.hypot(node.x, node.y, node.z);
 
     const newPos =
