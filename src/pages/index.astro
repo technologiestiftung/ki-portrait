@@ -18,3 +18,12 @@ import SettingsModal from "../components/SettingsModal.astro";
   <NavigationLegend />
   <Footer />
 </Layout>
+
+<script>
+  window.addEventListener("scroll", (evt) => {
+    evt.preventDefault();
+  });
+  window.addEventListener("wheel", (evt) => {
+    evt.preventDefault();
+  });
+</script>
