@@ -16,7 +16,7 @@
 
 <script>
   import ForceGraph3D from "3d-force-graph";
-  import { graphSettings } from "../utils/initSettings";
+  import { graphSettings } from "../utils/GraphSettings";
   import { getGraphData } from "../utils/dataUtil";
   import {
     getNodeClickHandler,
@@ -25,7 +25,6 @@
     getImageRenderer,
   } from "../utils/graphUtil";
   import type { PortraitWithCoordinates } from "../utils/graphUtil";
-  import type { ParsedPortraitType } from "../../scripts/lib/parsePortraitData";
   import portraitState from "../utils/PortraitState";
 
   const canvas = document.querySelector("#threed-graph") as HTMLCanvasElement;

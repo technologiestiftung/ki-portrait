@@ -1,6 +1,6 @@
 import { settingsDefaults } from "./settingsDefaults";
 
-type SettingsKey = keyof typeof settingsDefaults;
+export type SettingsKey = keyof typeof settingsDefaults;
 
 type ListenerType = (newValue: number) => void;
 type ListenersType = Map<SettingsKey, ListenerType[]>;
@@ -30,11 +30,15 @@ class GraphSettings {
   }
 
   public onAnyChange(callback: ListenerType) {
-    this.listeners.forEach((_, key) => this.onChange(key, callback));
+    this.settings.forEach((_, key) =>
+      this.onChange(key as SettingsKey, callback)
+    );
   }
 
   public offAnyChange(callback: ListenerType) {
-    this.listeners.forEach((_, key) => this.offChange(key, callback));
+    this.settings.forEach((_, key) =>
+      this.offChange(key as SettingsKey, callback)
+    );
   }
 
   public onChange(value: SettingsKey, callback: ListenerType) {
