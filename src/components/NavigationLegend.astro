@@ -12,10 +12,10 @@ import ClickIcon from "./icons/ClickIcon.astro";
   class={classes(
     "collapsed",
     "fixed bottom-2 left-2 bg-background shadow border border-border",
-    "rounded-full overflow-hidden"
+    "rounded-3xl overflow-hidden z-10 flex-col-reverse sm:flex-row"
   )}
 >
-  <div class="relative flex gap-4">
+  <div class="relative flex gap-4 flex-wrap sm:flex-nowrap shrink-0">
     <button
       id="navigation-lengend-toggle"
       class={classes(
@@ -29,14 +29,16 @@ import ClickIcon from "./icons/ClickIcon.astro";
       <CrossIcon class="cross-icon" />
       <PanIcon class="pan-icon" />
       <span class="text whitespace-nowrap text-inherit">
-        <span class="mx-2">Wie navigiere ich?</span>
+        <span class="mx-2 hidden xs:block"> Wie navigiere ich?</span>
+        <span class="mx-2 xs:hidden">Navigation</span>
       </span>
     </button>
-    <ul class="flex gap-4">
+    <ul class="flex sm:gap-4 flex-wrap sm:flex-nowrap">
       <li
         class={classes(
+          "w-full sm:w-auto pl-4 sm:pl-0",
           "text-discrete flex gap-3 flex-nowrap whitespace-nowrap",
-          "py-3 pr-4 border-r border-border"
+          "py-3 pr-4 border-b sm:border-b-0 sm:border-r border-border"
         )}
       >
         <Rotate3DIcon class="opacity-80" />
@@ -44,8 +46,9 @@ import ClickIcon from "./icons/ClickIcon.astro";
       </li>
       <li
         class={classes(
+          "w-full sm:w-auto pl-4 sm:pl-0",
           "text-discrete flex gap-3 flex-nowrap whitespace-nowrap",
-          "py-3 pr-4 border-r border-border"
+          "py-3 pr-4 border-b sm:border-b-0 sm:border-r border-border"
         )}
       >
         <PanIcon class="opacity-80" />
@@ -53,8 +56,9 @@ import ClickIcon from "./icons/ClickIcon.astro";
       </li>
       <li
         class={classes(
+          "w-full sm:w-auto pl-4 sm:pl-0",
           "text-discrete flex gap-3 flex-nowrap whitespace-nowrap",
-          "py-3 pr-4 border-r border-border"
+          "py-3 pr-4 border-b sm:border-b-0 sm:border-r border-border"
         )}
       >
         <ZoomIcon class="opacity-80" />
@@ -62,6 +66,7 @@ import ClickIcon from "./icons/ClickIcon.astro";
       </li>
       <li
         class={classes(
+          "w-full sm:w-auto pl-4 sm:pl-0",
           "text-discrete flex gap-3 flex-nowrap whitespace-nowrap",
           "py-3 pr-4"
         )}
@@ -76,17 +81,26 @@ import ClickIcon from "./icons/ClickIcon.astro";
 <style is:global>
   #navigation-legend.collapsed {
     max-width: 179px;
+    max-height: 48px;
+
+    @apply max-w-[133px] xs:max-w-[179px];
   }
   #navigation-legend,
   #navigation-legend .text {
     will-change: width;
     @apply transition-all overflow-hidden duration-700 ease-out-extreme;
   }
+
+  #navigation-legend.expanded #navigation-lengend-toggle {
+    @apply absolute top-0 right-0 sm:static;
+  }
+
   #navigation-legend {
     @apply duration-300;
   }
   #navigation-legend.expanded {
-    max-width: 100%;
+    max-width: calc(100vw - 1rem);
+    max-height: calc(100vh - 1rem);
   }
   #navigation-legend.expanded .pan-icon,
   #navigation-legend.collapsed .cross-icon {
