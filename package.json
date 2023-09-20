@@ -26,6 +26,7 @@
     "@types/node": "20.6.0",
     "@types/splashy": "5.0.0",
     "@types/three": "0.156.0",
+    "color-convert": "2.0.1",
     "color.js": "1.2.0",
     "netlify-cli": "15.7.0",
     "node-vibrant": "3.2.0-alpha",
