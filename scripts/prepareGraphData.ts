@@ -3,6 +3,7 @@ import { fileURLToPath } from "url";
 import { writeJsonFile } from "./lib/writeJsonFile.ts";
 import { parsePortraitData } from "./lib/parsePortraitData.ts";
 import { parseFor3dGraph } from "./lib/parseFor3dGraph.ts";
+import { extendWithColorData } from "./lib/extendWithColorData.ts";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const jsonPath = join(__dirname, "../public/eotai_images_extended.json");
@@ -13,7 +14,10 @@ const destPath = join(
 
 async function main() {
   const parsedPortraitData = await parsePortraitData(jsonPath);
-  const parsedFor3dGraph = parseFor3dGraph(parsedPortraitData);
+  const portraitDataWithExtenedColor = await extendWithColorData(
+    parsedPortraitData
+  );
+  const parsedFor3dGraph = parseFor3dGraph(portraitDataWithExtenedColor);
   await writeJsonFile(destPath, parsedFor3dGraph);
   console.log(`Wrote ${parsedPortraitData.length} portraits to ${destPath}`);
 }
