@@ -49,6 +49,7 @@
       .onNodeClick((nd) => {
         const node = nd as PortraitWithCoordinates;
         const selectedPortrait = portraitState.getSelectedPortrait();
+        console.log("nd", nd);
         if (selectedPortrait && selectedPortrait.id === node.id) {
           portraitState.deselect();
           return;

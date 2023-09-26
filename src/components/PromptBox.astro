@@ -47,7 +47,8 @@ import classes from "../utils/classes";
     const pills = portrait.colorPalette?.map((color) => {
       const li = document.createElement("li");
       li.classList.add("w-4", "h-4", "rounded-full");
-      li.style.backgroundColor = `rgb(${color[0]},${color[1]},${color[2]})`;
+      console.log(color);
+      li.style.backgroundColor = `hsl(${color[0]},${color[1]}%,${color[2]}%)`;
       return li;
     });
     if (!pills || pills.length === 0) return;
