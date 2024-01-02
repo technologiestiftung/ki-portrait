@@ -11,7 +11,7 @@
     "prepareGraphData": "bun run scripts/prepareGraphData.ts"
   },
   "dependencies": {
-    "@astrojs/tailwind": "4.0.0",
+    "@astrojs/tailwind": "5.1.0",
     "@netlify/functions": "1.6.0",
     "@tailwindcss/container-queries": "^0.1.1",
     "3d-force-graph": "1.72.3",
