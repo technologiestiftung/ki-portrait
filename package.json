@@ -29,7 +29,7 @@
     "color-convert": "2.0.1",
     "color.js": "1.2.0",
     "get-pixels": "3.3.3",
-    "netlify-cli": "15.11.0",
+    "netlify-cli": "17.11.1",
     "node-vibrant": "3.2.0-alpha",
     "sharp": "0.33.1",
     "ts-node": "10.9.2",
