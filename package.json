@@ -23,7 +23,7 @@
   "devDependencies": {
     "@technologiestiftung/semantic-release-config": "1.2.4",
     "@types/dat.gui": "0.7.12",
-    "@types/node": "20.10.6",
+    "@types/node": "20.11.5",
     "@types/splashy": "5.0.2",
     "@types/three": "0.160.0",
     "color-convert": "2.0.1",
@@ -31,7 +31,7 @@
     "get-pixels": "3.3.3",
     "netlify-cli": "15.11.0",
     "node-vibrant": "3.2.0-alpha",
-    "sharp": "0.33.1",
+    "sharp": "0.33.2",
     "ts-node": "10.9.2",
     "typescript": "5.3.3",
     "zod": "3.22.4"
