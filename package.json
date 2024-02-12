@@ -23,9 +23,9 @@
   "devDependencies": {
     "@technologiestiftung/semantic-release-config": "1.2.4",
     "@types/dat.gui": "0.7.12",
-    "@types/node": "20.11.10",
+    "@types/node": "20.11.17",
     "@types/splashy": "5.0.2",
-    "@types/three": "0.160.0",
+    "@types/three": "0.161.2",
     "color-convert": "2.0.1",
     "color.js": "1.2.0",
     "get-pixels": "3.3.3",
