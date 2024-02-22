@@ -15,7 +15,7 @@
     "@netlify/functions": "1.6.0",
     "@tailwindcss/container-queries": "^0.1.1",
     "3d-force-graph": "1.72.3",
-    "astro": "2.7.2",
+    "astro": "4.4.3",
     "dat.gui": "^0.7.9",
     "tailwindcss": "3.3.2",
     "tailwindcss-touch": "^1.0.1"
